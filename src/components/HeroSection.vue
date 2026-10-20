@@ -19,9 +19,9 @@ defineEmits(['continue'])
     <span class="orbit-signal" aria-hidden="true"></span>
 
     <div class="hero-content page-container">
-      <h1>No universo, as conexões revelam padrões. <br/>  Na tecnologia, criam possibilidades.</h1>
-      <p class="hero-description">
-Sou engenheira de software e gosto de entender problemas, explorar possibilidades e transformar ideias em soluções digitais úteis e feitas para evoluir.      </p>
+      <h2>Sou Thayane Nascimento,</h2>
+      <h1>E este é o meu universo.</h1>
+      <p class="hero-description">Desenvolvedora Full Stack com 6+ anos de experiência. Profissional que questiona, entende, cria e transforma ideias em soluções digitais úteis e feitas para evoluir.</p>
       <div class="hero-actions">
         <button
           v-if="presentation"

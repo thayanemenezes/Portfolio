@@ -34,6 +34,10 @@ Em 2017, entrei no mundo da programação e reencontrei aquela mesma sensação 
         </p>
         <p> Em 2019, comecei minha trajetória profissional com um estágio como técnica de informática. Alguns meses depois, passei a atuar como designer até conquistar minha primeira oportunidade como desenvolvedora full-stack. Desde então, trabalhei em projetos de diferentes áreas, como e-commerce, setor automobilístico, saúde e educação, sempre buscando formas de criar, aprimorar e evoluir produtos.
         </p>
+        <p>
+          Em boa parte dos projetos que participei, fui responsável por migrar sistemas legados para novas tecnologias e arquitetura, garantindo que os produtos evoluíssem de forma escalável. Em cada projeto, busquei entender o contexto do negócio, os objetivos do produto e as necessidades dos usuários para criar soluções que fizessem sentido. 
+        </p>
+        
         <button v-if="presentation" class="flow-continue" type="button" @click="$emit('continue')">
           Continuar
           <ArrowUpRight :size="16" aria-hidden="true" />

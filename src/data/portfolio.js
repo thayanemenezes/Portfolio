@@ -20,101 +20,53 @@ export const experiences = [
 ]
 
 export const projects = [
+   {
+    id: 'platform',
+    category: 'web',
+    categoryLabel: 'Web',
+    title: 'Asterismo Tecnologia',
+    summary: `Landing page para empresa de tecnologia, com foco em apresentar serviços e soluções de forma clara e atrativa.`,
+    image:
+      '/asterismo.png',
+    imageAlt: 'Site Plataforma',
+    role: 'Desenvolvedora Frontend Principal',
+    stack: 'React, TailwindCSS, Vite',
+    context:
+      'O projeto consistiu em criar uma landing page para a Asterismo Tecnologia, com o objetivo de apresentar seus serviços e soluções de forma clara e atrativa. A página precisava ser responsiva, rápida e otimizada para SEO, garantindo uma boa experiência para os visitantes.',
+    process:
+      'Atuei desde o planejamento de layout e design, até a implementação do front-end utilizando React e TailwindCSS. Realizei testes de usabilidade e performance, garantindo que a página atendesse aos requisitos de acessibilidade e SEO. Também integrei formulários de contato e links para redes sociais, facilitando a comunicação com potenciais clientes.',
+    result: 'Uma landing page funcional e visualmente atraente, que apresenta os serviços da Asterismo Tecnologia de forma clara e profissional. A página ainda está em fase de testes para entrar em produção.',
+    detailImage:
+      '/asterismo -2.png',
+    link: 'https://www.magicauthor.ai/',
+  },
   {
     id: 'platform',
     category: 'web',
     categoryLabel: 'Web',
-    title: '[Plataforma de serviços digitais]',
+    title: 'Saas Com IA para Criação de Cursos',
     summary:
-      'Espaço para resumir o contexto do produto, o problema principal e a solução desenvolvida.',
+      'Saas multi-tenant de cursos com IA, transformando um MVP limitado em uma solução interativa para criação e edição de conteúdo multimídia.',
     image:
-      'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    imageAlt: 'Estação de trabalho com computador e iluminação colorida.',
-    role: '[sua função]',
-    stack: '[tecnologias]',
+      '/magic-author.png',
+    imageAlt: 'Site Plataforma',
+    role: 'Desenvolvedora Frontend Principal',
+    stack: 'React, Next.js, TailwindCSS',
     context:
-      'Substitua este texto pelo problema real, pelo público atendido e pelas metas que orientaram o projeto.',
+      'Iniciei no projeto quando ele ainda era um MVP limitado, com recursos básicos de edição de cursos. O objetivo era evoluir a plataforma para uma solução mais interativa e customizável, incorporando fluxos com IA. O desafio era entregar uma plataforma escalável e com features avançadas, mantendo a experiência do usuário fluida. ',
     process:
-      'Descreva o processo de descoberta, priorização, implementação e validação. Destaque as decisões que equilibraram experiência, viabilidade e qualidade técnica.',
-    result: '[Impacto alcançado e principais aprendizados]',
+      'Atuei como referência técnica do front-end, conduzindo decisões de arquitetura, definindo padrões de implementação e orientando a evolução do código. Identifiquei limitações na modelagem de dados e na estrutura da aplicação que dificultavam a escalabilidade e a implementação de novas funcionalidades, propondo melhorias para tornar a base mais flexível e sustentável. Também fui responsável pela migração de funcionalidades de React para Next.js e pela transformação de interfaces prototipadas no Lovable em código de produção. Nesse processo, refinei a arquitetura, estruturei componentes reutilizáveis e revisei o código para garantir maior consistência, manutenibilidade e aderência às necessidades do produto.',
+    result: 'Evolução de um MVP limitado para uma plataforma de criação e edição de cursos com IA, mais interativa, flexível e preparada para produção. A solução passou a oferecer experiências de autoria mais completas, com edição de conteúdo multimídia, componentes interativos, colaboração em tempo real e publicação de cursos. O projeto reforçou a importância de uma arquitetura escalável, de processos bem estruturados e de decisões técnicas alinhadas às regras de negócio e às necessidades dos usuários.',
     detailImage:
-      'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    gallery: [
-      'https://images.pexels.com/photos/196645/pexels-photo-196645.jpeg?auto=compress&cs=tinysrgb&w=900',
-      'https://images.pexels.com/photos/34140/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=900',
-    ],
-    github: 'https://github.com/',
+      '/magic-author-2.png',
+    link: 'https://www.magicauthor.ai/',
   },
-  {
-    id: 'mobile',
-    category: 'product',
-    categoryLabel: 'Produto',
-    title: '[Experiência mobile centrada no usuário]',
-    summary:
-      'Espaço para explicar como pesquisa, fluxo e interface contribuíram para uma experiência mais intuitiva.',
-    image:
-      'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    imageAlt: 'Caderno de anotações e smartphone sobre uma mesa.',
-    role: '[sua função]',
-    stack: '[tecnologias]',
-    context:
-      'Registre o problema que motivou o produto, o perfil do usuário e o comportamento que precisava ser simplificado.',
-    process:
-      'Descreva a evolução do fluxo, os testes realizados e as decisões de interface que aumentaram clareza, confiança e consistência.',
-    result: '[Impacto alcançado e principais aprendizados]',
-    detailImage:
-      'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    gallery: [],
-    github: 'https://github.com/',
-  },
-  {
-    id: 'commerce',
-    category: 'web',
-    categoryLabel: 'Web',
-    title: '[E-commerce orientado à conversão]',
-    summary:
-      'Espaço para apresentar decisões de interface, navegação, responsividade e performance.',
-    image:
-      'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    imageAlt: 'Pessoa usando o celular durante uma compra online.',
-    role: '[sua função]',
-    stack: '[tecnologias]',
-    context:
-      'Explique o desafio comercial, as jornadas prioritárias e os critérios utilizados para orientar a experiência.',
-    process:
-      'Detalhe a estratégia de navegação, os componentes reutilizáveis, a responsividade e as otimizações aplicadas durante a implementação.',
-    result: '[Impacto alcançado e principais aprendizados]',
-    detailImage:
-      'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    gallery: [],
-    github: 'https://github.com/',
-  },
-  {
-    id: 'dashboard',
-    category: 'data',
-    categoryLabel: 'Dados',
-    title: '[Dashboard para decisões mais claras]',
-    summary:
-      'Espaço para demonstrar como informações complexas foram organizadas em uma interface acionável.',
-    image:
-      'https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    imageAlt: 'Anotações e gráficos usados para análise de dados.',
-    role: '[sua função]',
-    stack: '[tecnologias]',
-    context:
-      'Registre as perguntas de negócio, as fontes de informação e os usuários que dependiam de uma leitura rápida dos dados.',
-    process:
-      'Explique como as informações foram hierarquizadas, quais visualizações foram priorizadas e como a interface favoreceu a tomada de decisão.',
-    result: '[Impacto alcançado e principais aprendizados]',
-    detailImage:
-      'https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    gallery: [],
-    github: 'https://github.com/',
-  },
+  
 ]
 
 export const contact = {
-  email: 'contato@exemplo.com',
-  github: 'https://github.com/',
-  linkedin: 'https://www.linkedin.com/',
+  email: 'thayanemenezes.dev@gmail.com',
+  github: 'https://github.com/thayanemenezes',
+  linkedin: 'hhttps://www.linkedin.com/in/thayane-nascimento-31a5a9191/',
 }
+ 

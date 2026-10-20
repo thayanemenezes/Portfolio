@@ -25,15 +25,6 @@ defineEmits(['back'])
           <p class="case-context">{{ project.context }}</p>
           <h3>Processo e decisões técnicas</h3>
           <p>{{ project.process }}</p>
-          <div v-if="project.gallery.length" class="case-gallery">
-            <img
-              v-for="(image, index) in project.gallery"
-              :key="image"
-              :src="image"
-              :alt="`Imagem complementar ${index + 1} do projeto ${project.title}`"
-              loading="lazy"
-            />
-          </div>
         </div>
 
         <aside class="case-meta">
@@ -43,8 +34,8 @@ defineEmits(['back'])
           <p>{{ project.stack }}</p>
           <h3>Resultado e aprendizados</h3>
           <p>{{ project.result }}</p>
-          <a class="github-link" :href="project.github" target="_blank" rel="noopener noreferrer">
-            GitHub — substituir URL <ArrowUpRight :size="16" aria-hidden="true" />
+          <a class="github-link" :href="project.link" target="_blank" rel="noopener noreferrer">
+            Link <ArrowUpRight :size="16" aria-hidden="true" />
           </a>
         </aside>
       </div>
@@ -80,8 +71,9 @@ defineEmits(['back'])
 
 .case-cover {
   width: 100%;
-  height: clamp(240px, 32vw, 380px);
+  height: clamp(260px, 34vw, 400px);
   object-fit: cover;
+  object-position: top;
   opacity: 0.78;
 }
 
@@ -130,6 +122,7 @@ defineEmits(['back'])
   height: 170px;
   border-radius: 5px;
   object-fit: cover;
+
 }
 
 .case-meta {

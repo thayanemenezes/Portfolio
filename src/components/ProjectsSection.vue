@@ -51,7 +51,7 @@ function closeProject() {
       <div class="projects-heading">
         <div class="section-heading">
           <p class="eyebrow">03 / Projetos selecionados</p>
-          <h2>Projetos</h2>
+          <h2>Principais projetos</h2>
           <p class="section-intro">
           </p>
         </div>
@@ -72,12 +72,12 @@ function closeProject() {
         <article v-for="project in visibleProjects" :key="project.id" class="project-card">
           <img :src="project.image" :alt="project.imageAlt" loading="lazy" />
           <div class="project-content">
-            <p class="eyebrow">Projeto provisório / {{ project.categoryLabel }}</p>
+            <p class="eyebrow"> {{ project.categoryLabel }}</p>
             <h3>{{ project.title }}</h3>
             <p class="project-summary">{{ project.summary }}</p>
             <p class="project-stack">Papel: {{ project.role }} <span>·</span> Stack: {{ project.stack }}</p>
             <button class="project-open" type="button" @click="openProject(project)">
-              Ver estudo de caso <ArrowUpRight :size="17" aria-hidden="true" />
+              Ver projeto <ArrowUpRight :size="17" aria-hidden="true" />
             </button>
           </div>
         </article>
@@ -208,8 +208,9 @@ function closeProject() {
 
 .project-card > img {
   width: 100%;
-  height: 230px;
+  height: 250px;
   object-fit: cover;
+  object-position: top;
   opacity: 0.82;
 }
 
