@@ -24,4 +24,4 @@ O workflow em `.github/workflows/deploy.yml` compila e publica o site automatica
 
 Na primeira publicação, abra **Settings > Pages** no repositório e selecione **GitHub Actions** como origem do deploy.
 
-O build de publicação usa o caminho `/my-portfolio/`, correspondente ao repositório, e a versão local continua usando `/`.
+No GitHub Actions, o caminho base é definido automaticamente a partir do nome do repositório, respeitando maiúsculas e minúsculas. A versão local continua usando `/`.
