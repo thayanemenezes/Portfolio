@@ -1,38 +1,27 @@
-# my-portfolio
+# Portfólio de Thayane Nascimento
 
-This template should help get you started developing with Vue 3 in Vite.
+Portfólio desenvolvido com Vue 3 e Vite.
 
-## Recommended IDE Setup
+## Desenvolvimento local
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+Requer Node.js 22 ou superior.
 
 ```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+npm ci
 npm run dev
 ```
 
-### Compile and Minify for Production
+Para validar a versão de produção localmente:
 
 ```sh
 npm run build
+npm run preview
 ```
+
+## Publicação no GitHub Pages
+
+O workflow em `.github/workflows/deploy.yml` compila e publica o site automaticamente a cada push para `main`. Também é possível iniciar a publicação manualmente pela aba **Actions** do GitHub.
+
+Na primeira publicação, abra **Settings > Pages** no repositório e selecione **GitHub Actions** como origem do deploy.
+
+O build de publicação usa o caminho `/my-portfolio/`, correspondente ao repositório, e a versão local continua usando `/`.

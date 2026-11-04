@@ -2,6 +2,7 @@
 import { experiences } from '../data/portfolio.js'
 
 const markers = ['gold', 'blue']
+const baseUrl = import.meta.env.BASE_URL
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const markers = ['gold', 'blue']
         </p>
         <a
           class="resume-download"
-          href="/THAYANE%20-%20RESUME.pdf"
+          :href="`${baseUrl}THAYANE%20-%20RESUME.pdf`"
           download="Thayane-Nascimento-Curriculo.pdf"
         >
           Baixar currículo completo

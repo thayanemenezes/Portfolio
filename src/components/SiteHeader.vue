@@ -4,6 +4,7 @@ import { Menu, X } from '@lucide/vue'
 
 const isMenuOpen = ref(false)
 const activeSection = ref('inicio')
+const baseUrl = import.meta.env.BASE_URL
 const links = [
   { label: 'Apresentação', href: '#apresentacao', id: 'apresentacao' },
   { label: 'Experiências', href: '#experiencias', id: 'experiencias' },
@@ -37,7 +38,7 @@ onUnmounted(() => observer?.disconnect())
   <header class="site-header">
     <nav class="site-nav page-container" aria-label="Navegação principal">
       <a class="brand" href="#inicio" @click="closeMenu">
-        <img src="/logo.png" alt="Logo" class="brand-image" />
+        <img :src="`${baseUrl}logo.png`" alt="Logo" class="brand-image" />
         <span>Thayane Nascimento</span>
       </a>
 

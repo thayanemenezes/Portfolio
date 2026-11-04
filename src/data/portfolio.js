@@ -26,8 +26,7 @@ export const projects = [
     categoryLabel: 'Web',
     title: 'Asterismo Tecnologia',
     summary: `Landing page para empresa de tecnologia, com foco em apresentar serviços e soluções de forma clara e atrativa.`,
-    image:
-      '/asterismo.png',
+    image: `${import.meta.env.BASE_URL}asterismo.png`,
     imageAlt: 'Site Plataforma',
     role: 'Desenvolvedora Frontend Principal',
     stack: 'React, TailwindCSS, Vite',
@@ -36,8 +35,7 @@ export const projects = [
     process:
       'Atuei desde o planejamento de layout e design, até a implementação do front-end utilizando React e TailwindCSS. Realizei testes de usabilidade e performance, garantindo que a página atendesse aos requisitos de acessibilidade e SEO. Também integrei formulários de contato e links para redes sociais, facilitando a comunicação com potenciais clientes.',
     result: 'Uma landing page funcional e visualmente atraente, que apresenta os serviços da Asterismo Tecnologia de forma clara e profissional. A página ainda está em fase de testes para entrar em produção.',
-    detailImage:
-      '/asterismo -2.png',
+    detailImage: `${import.meta.env.BASE_URL}asterismo-2.png`,
     link: 'https://www.magicauthor.ai/',
   },
   {
@@ -47,8 +45,7 @@ export const projects = [
     title: 'Saas Com IA para Criação de Cursos',
     summary:
       'Saas multi-tenant de cursos com IA, transformando um MVP limitado em uma solução interativa para criação e edição de conteúdo multimídia.',
-    image:
-      '/magic-author.png',
+    image: `${import.meta.env.BASE_URL}magic-author.png`,
     imageAlt: 'Site Plataforma',
     role: 'Desenvolvedora Frontend Principal',
     stack: 'React, Next.js, TailwindCSS',
@@ -57,8 +54,7 @@ export const projects = [
     process:
       'Atuei como referência técnica do front-end, conduzindo decisões de arquitetura, definindo padrões de implementação e orientando a evolução do código. Identifiquei limitações na modelagem de dados e na estrutura da aplicação que dificultavam a escalabilidade e a implementação de novas funcionalidades, propondo melhorias para tornar a base mais flexível e sustentável. Também fui responsável pela migração de funcionalidades de React para Next.js e pela transformação de interfaces prototipadas no Lovable em código de produção. Nesse processo, refinei a arquitetura, estruturei componentes reutilizáveis e revisei o código para garantir maior consistência, manutenibilidade e aderência às necessidades do produto.',
     result: 'Evolução de um MVP limitado para uma plataforma de criação e edição de cursos com IA, mais interativa, flexível e preparada para produção. A solução passou a oferecer experiências de autoria mais completas, com edição de conteúdo multimídia, componentes interativos, colaboração em tempo real e publicação de cursos. O projeto reforçou a importância de uma arquitetura escalável, de processos bem estruturados e de decisões técnicas alinhadas às regras de negócio e às necessidades dos usuários.',
-    detailImage:
-      '/magic-author-2.png',
+    detailImage: `${import.meta.env.BASE_URL}magic-author-2.png`,
     link: 'https://www.magicauthor.ai/',
   },
   
