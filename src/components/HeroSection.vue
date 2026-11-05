@@ -235,7 +235,7 @@ h1 {
 
   h1 {
     max-width: 600px;
-    font-size: clamp(3rem, 12vw, 4.7rem);
+    font-size: clamp(2.5rem, 10vw, 4rem);
   }
 
   .hero-orbit-large {

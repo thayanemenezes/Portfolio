@@ -51,22 +51,14 @@ function closeProject() {
       <div class="projects-heading">
         <div class="section-heading">
           <p class="eyebrow">03 / Projetos selecionados</p>
-          <h2>Principais projetos</h2>
+          <h2>Projetos e estudos de caso</h2>
+           <p class="section-intro">
+          Construção pensada para o negócio e para o usuário, navegando entre criações e otimizações.
+        </p>
           <p class="section-intro">
           </p>
         </div>
-        <div class="filter-group" role="group" aria-label="Filtrar projetos">
-          <button
-            v-for="filter in filters"
-            :key="filter.value"
-            :aria-pressed="activeFilter === filter.value"
-            :class="['filter-button', { 'is-selected': activeFilter === filter.value }]"
-            type="button"
-            @click="activeFilter = filter.value"
-          >
-            {{ filter.label }}
-          </button>
-        </div>
+      
       </div>
       <div class="project-grid" aria-live="polite">
         <article v-for="project in visibleProjects" :key="project.id" class="project-card">

@@ -3,6 +3,8 @@ import { experiences } from '../data/portfolio.js'
 
 const markers = ['gold', 'blue']
 const baseUrl = import.meta.env.BASE_URL
+
+
 </script>
 
 <template>
@@ -21,6 +23,7 @@ const baseUrl = import.meta.env.BASE_URL
           :href="`${baseUrl}THAYANE%20-%20RESUME.pdf`"
           download="Thayane-Nascimento-Curriculo.pdf"
         >
+        <v-icon name="hi-download" fill="white" aria-hidden="true" />
           Baixar currículo completo
         </a>
       </div>
@@ -56,10 +59,11 @@ const baseUrl = import.meta.env.BASE_URL
 .section-heading {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
+  justify-content: space-between;
 }
-
+  
 .section-heading h2 {
   margin-top: 16px;
   color: var(--color-text);
@@ -71,6 +75,7 @@ const baseUrl = import.meta.env.BASE_URL
 
 .section-text{
   flex: 1 1 auto;
+  max-width: 650px;
 }
 
 .section-intro {
@@ -81,9 +86,11 @@ const baseUrl = import.meta.env.BASE_URL
 
 .resume-download {
   display: inline-flex;
+  flex: 0 0 auto;
   min-height: 46px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   margin-top: 24px;
   padding: 0 18px;
   border: 1px solid var(--color-violet);
@@ -194,6 +201,13 @@ const baseUrl = import.meta.env.BASE_URL
 
 .experience-result.gold { border-color: var(--color-signal); color: #fff0ad; }
 .experience-result.blue { border-color: var(--color-blue); color: #a8d9ff; }
+
+@media (max-width: 900px) {
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 @media (max-width: 600px) {
   .experience-list {

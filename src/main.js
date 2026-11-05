@@ -1,6 +1,13 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
+import { OhVueIcon, addIcons } from 'oh-vue-icons'
+import { HiDownload } from 'oh-vue-icons/icons'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+addIcons(HiDownload)
+
+const app = createApp(App)
+
+app.component('v-icon', OhVueIcon)
+app.mount('#app')

@@ -2,7 +2,6 @@
   <footer class="site-footer">
     <div class="page-container footer-content">
       <p>© {{ new Date().getFullYear() }} Thayane Nascimento</p>
-    
       <a href="#inicio">Voltar ao início ↑</a>
     </div>
   </footer>
@@ -32,8 +31,10 @@
 }
 
 @media (max-width: 620px) {
+  p{
+    order: 2;
+  }
   .footer-content {
-    align-items: flex-start;
     flex-direction: column;
   }
 }
