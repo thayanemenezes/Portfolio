@@ -1,8 +1,22 @@
+<script setup>
+import { computed } from 'vue'
+import { portfolioText } from '../data/portfolio.js'
+
+const props = defineProps({
+  language: {
+    type: String,
+    default: 'en',
+  },
+})
+
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+</script>
+
 <template>
   <footer class="site-footer">
     <div class="page-container footer-content">
       <p>© {{ new Date().getFullYear() }} Thayane Nascimento</p>
-      <a href="#inicio">Voltar ao início ↑</a>
+      <a href="#inicio">{{ text.footer.backToTop }} ↑</a>
     </div>
   </footer>
 </template>

@@ -1,16 +1,21 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Menu, X } from '@lucide/vue'
+import { portfolioText } from '../data/portfolio.js'
 
+const props = defineProps({
+  language: {
+    type: String,
+    default: 'en',
+  },
+})
+
+const emit = defineEmits(['set-language'])
 const isMenuOpen = ref(false)
 const activeSection = ref('inicio')
 const baseUrl = import.meta.env.BASE_URL
-const links = [
-  { label: 'Apresentação', href: '#apresentacao', id: 'apresentacao' },
-  { label: 'Experiências', href: '#experiencias', id: 'experiencias' },
-  { label: 'Projetos', href: '#projetos', id: 'projetos' },
-  { label: 'Contato', href: '#contato', id: 'contato' },
-]
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+const links = computed(() => text.value.header.links)
 
 let observer
 
@@ -36,7 +41,7 @@ onUnmounted(() => observer?.disconnect())
 
 <template>
   <header class="site-header">
-    <nav class="site-nav page-container" aria-label="Navegação principal">
+    <nav class="site-nav page-container" :aria-label="text.header.ariaLabel">
       <a class="brand" href="#inicio" @click="closeMenu">
         <img :src="`${baseUrl}logo.png`" alt="Logo" class="brand-image" />
         <span>Thayane Nascimento</span>
@@ -53,17 +58,36 @@ onUnmounted(() => observer?.disconnect())
         </a>
       </div>
 
-      <button
-        class="mobile-toggle icon-button"
-        type="button"
-        :aria-expanded="isMenuOpen"
-        aria-controls="mobile-menu"
-        :aria-label="isMenuOpen ? 'Fechar menu' : 'Abrir menu'"
-        @click="isMenuOpen = !isMenuOpen"
-      >
-        <X v-if="isMenuOpen" :size="21" aria-hidden="true" />
-        <Menu v-else :size="21" aria-hidden="true" />
-      </button>
+      <div class="header-actions">
+        <div class="language-switch" aria-label="Language selector">
+          <button
+            type="button"
+            :class="['lang-button', { 'is-active': language === 'en' }]"
+            @click="emit('set-language', 'en')"
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            :class="['lang-button', { 'is-active': language === 'pt-BR' }]"
+            @click="emit('set-language', 'pt-BR')"
+          >
+            PT-BR
+          </button>
+        </div>
+
+        <button
+          class="mobile-toggle icon-button"
+          type="button"
+          :aria-expanded="isMenuOpen"
+          aria-controls="mobile-menu"
+          :aria-label="isMenuOpen ? text.header.menuClose : text.header.menuOpen"
+          @click="isMenuOpen = !isMenuOpen"
+        >
+          <X v-if="isMenuOpen" :size="21" aria-hidden="true" />
+          <Menu v-else :size="21" aria-hidden="true" />
+        </button>
+      </div>
     </nav>
 
     <div v-if="isMenuOpen" id="mobile-menu" class="mobile-menu">
@@ -130,6 +154,41 @@ onUnmounted(() => observer?.disconnect())
   gap: clamp(20px, 3vw, 38px);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid rgb(172 184 255 / 20%);
+  border-radius: 999px;
+  background: rgb(19 23 35 / 85%);
+}
+
+.lang-button {
+  min-width: 46px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: all 180ms ease;
+}
+
+.lang-button.is-active {
+  background: var(--color-violet);
+  color: white;
+}
+
 .nav-link,
 .mobile-nav-link {
   color: var(--color-muted);
@@ -157,7 +216,15 @@ onUnmounted(() => observer?.disconnect())
   display: none;
 }
 
+.mobile-menu {
+  background: transparent;
+}
+
 @media (max-width: 760px) {
+  .site-header {
+    background: transparent;
+  }
+
   .site-nav {
     min-height: 68px;
   }
@@ -168,6 +235,9 @@ onUnmounted(() => observer?.disconnect())
 
   .mobile-toggle {
     display: grid;
+    border: 0;
+    background: transparent;
+    color: #fff;
   }
 
   .mobile-menu {
@@ -175,11 +245,13 @@ onUnmounted(() => observer?.disconnect())
     gap: 4px;
     padding: 12px 20px 18px;
     border-top: 1px solid var(--color-line);
-    background: var(--color-ink);
   }
 
   .mobile-nav-link {
     padding: 10px 12px;
+  }
+  span{
+    display: none;
   }
 }
 </style>

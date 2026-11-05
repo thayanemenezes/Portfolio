@@ -1,30 +1,36 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { ArrowUpRight } from '@lucide/vue'
-import { projects } from '../data/portfolio.js'
+import { portfolioText, projects } from '../data/portfolio.js'
 import ProjectCaseStudy from './ProjectCaseStudy.vue'
 
-defineProps({
+const props = defineProps({
   presentation: {
     type: Boolean,
     default: false,
+  },
+  language: {
+    type: String,
+    default: 'en',
   },
 })
 
 defineEmits(['continue'])
 
-const filters = [
-  { label: 'Todos', value: 'all' },
-  { label: 'Web', value: 'web' },
-  { label: 'Produto', value: 'product' },
-  { label: 'Dados', value: 'data' },
-]
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+const projectList = computed(() => projects[props.language] ?? projects.en)
+const filters = computed(() => [
+  { label: text.value.projects.filters.all, value: 'all' },
+  { label: text.value.projects.filters.web, value: 'web' },
+  { label: text.value.projects.filters.product, value: 'product' },
+  { label: text.value.projects.filters.data, value: 'data' },
+])
 const activeFilter = ref('all')
 const selectedProject = ref(null)
 const visibleProjects = computed(() =>
   activeFilter.value === 'all'
-    ? projects
-    : projects.filter((project) => project.category === activeFilter.value),
+    ? projectList.value
+    : projectList.value.filter((project) => project.category === activeFilter.value),
 )
 
 function openProject(project) {
@@ -44,39 +50,38 @@ function closeProject() {
     <ProjectCaseStudy
       v-if="selectedProject"
       :project="selectedProject"
+      :language="language"
       @back="closeProject"
     />
 
     <div v-else class="page-container">
       <div class="projects-heading">
         <div class="section-heading">
-          <p class="eyebrow">03 / Projetos selecionados</p>
-          <h2>Projetos e estudos de caso</h2>
-           <p class="section-intro">
-          Construção pensada para o negócio e para o usuário, navegando entre criações e otimizações.
-        </p>
+          <p class="eyebrow">{{ text.projects.eyebrow }}</p>
+          <h2>{{ text.projects.title }}</h2>
           <p class="section-intro">
+            {{ text.projects.intro }}
           </p>
         </div>
-      
       </div>
+
       <div class="project-grid" aria-live="polite">
         <article v-for="project in visibleProjects" :key="project.id" class="project-card">
           <img :src="project.image" :alt="project.imageAlt" loading="lazy" />
           <div class="project-content">
-            <p class="eyebrow"> {{ project.categoryLabel }}</p>
+            <p class="eyebrow">{{ project.categoryLabel }}</p>
             <h3>{{ project.title }}</h3>
             <p class="project-summary">{{ project.summary }}</p>
-            <p class="project-stack">Papel: {{ project.role }} <span>·</span> Stack: {{ project.stack }}</p>
+            <p class="project-stack">{{ text.projects.role }}: {{ project.role }} <span>·</span> {{ text.projects.stack }}: {{ project.stack }}</p>
             <button class="project-open" type="button" @click="openProject(project)">
-              Ver projeto <ArrowUpRight :size="17" aria-hidden="true" />
+              {{ text.projects.viewProject }} <ArrowUpRight :size="17" aria-hidden="true" />
             </button>
           </div>
         </article>
       </div>
       <div v-if="presentation" class="projects-continue">
         <button class="flow-continue" type="button" @click="$emit('continue')">
-          Continuar <ArrowUpRight :size="17" aria-hidden="true" />
+          {{ text.projects.continue }} <ArrowUpRight :size="17" aria-hidden="true" />
         </button>
       </div>
     </div>

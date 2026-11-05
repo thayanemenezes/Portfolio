@@ -1,12 +1,20 @@
 <script setup>
+import { computed } from 'vue'
 import { ArrowRight } from '@lucide/vue'
+import { portfolioText } from '../data/portfolio.js'
 
-defineProps({
+const props = defineProps({
   presentation: {
     type: Boolean,
     default: false,
   },
+  language: {
+    type: String,
+    default: 'en',
+  },
 })
+
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
 
 defineEmits(['continue'])
 </script>
@@ -19,9 +27,9 @@ defineEmits(['continue'])
     <span class="orbit-signal" aria-hidden="true"></span>
 
     <div class="hero-content page-container">
-      <h2>Sou Thayane Nascimento,</h2>
-      <h1>Crio experiências em um universo de possibilidades.</h1>
-      <p class="hero-description">Desenvolvedora Full Stack com mais de 6 anos de experiência, conectando engenharia, design e visão de produto.</p>
+      <h2>{{ text.hero.title }}</h2>
+      <h1>{{ text.hero.subtitle }}</h1>
+      <p class="hero-description">{{ text.hero.description }}</p>
       <div class="hero-actions">
         <button
           v-if="presentation"
@@ -29,13 +37,13 @@ defineEmits(['continue'])
           type="button"
           @click="$emit('continue')"
         >
-          Continuar <ArrowRight :size="17" aria-hidden="true" />
+          {{ text.hero.continue }} <ArrowRight :size="17" aria-hidden="true" />
         </button>
         <template v-else>
           <a class="button button-primary" href="#projetos">
-          Ver projetos <ArrowRight :size="17" aria-hidden="true" />
+            {{ text.hero.viewProjects }} <ArrowRight :size="17" aria-hidden="true" />
           </a>
-          <a class="button button-secondary" href="#contato">Vamos conversar</a>
+          <a class="button button-secondary" href="#contato">{{ text.hero.talk }}</a>
         </template>
       </div>
     </div>
@@ -216,6 +224,7 @@ h1 {
   box-shadow: 0 0 18px var(--color-signal);
 }
 
+
 @keyframes content-arrive {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
@@ -235,24 +244,24 @@ h1 {
 
   h1 {
     max-width: 600px;
-    font-size: clamp(2.5rem, 10vw, 4rem);
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
   }
 
   .hero-orbit-large {
-    top: 12%;
-    right: -48%;
-    width: 100vw;
+    top: 8%;
+    right: -48vw;
+    width: 84vw;
   }
 
   .hero-orbit-small {
-    top: 23%;
-    right: -20%;
-    width: 64vw;
+    top: calc(8% + 16vw);
+    right: -32vw;
+    width: 52vw;
   }
 
   .orbit-signal {
-    top: 25%;
-    right: 24%;
+    top: calc(8% + 19.6vw - 4px);
+    right: 6%;
   }
 
   .scroll-hint {

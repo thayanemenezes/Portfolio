@@ -1,41 +1,55 @@
 <script setup>
+import { computed } from 'vue'
 import { ArrowLeft, ArrowUpRight } from '@lucide/vue'
+import { portfolioText } from '../data/portfolio.js'
 
-defineProps({
+const props = defineProps({
   project: {
     type: Object,
     required: true,
   },
+  language: {
+    type: String,
+    default: 'en',
+  },
 })
 
 defineEmits(['back'])
+
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
 </script>
 
 <template>
-  <section class="case-study page-container" :aria-label="`Estudo de caso: ${project.title}`">
+  <section class="case-study page-container" :aria-label="`Case study: ${project.title}`">
     <button class="back-button" type="button" @click="$emit('back')">
-      <ArrowLeft :size="17" aria-hidden="true" /> Voltar aos projetos
+      <ArrowLeft :size="17" aria-hidden="true" /> {{ text.projectCaseStudy.back }}
     </button>
     <article class="case-panel">
       <img class="case-cover" :src="project.detailImage" :alt="project.imageAlt" />
       <div class="case-content">
         <div class="case-main">
-          <p class="eyebrow">Estudo de caso / projeto provisório</p>
+          <p class="eyebrow">{{ text.projectCaseStudy.eyebrow }}</p>
           <h2>{{ project.title }}</h2>
           <p class="case-context">{{ project.context }}</p>
-          <h3>Processo e decisões técnicas</h3>
+          <h3>{{ text.projectCaseStudy.process }}</h3>
           <p>{{ project.process }}</p>
         </div>
 
         <aside class="case-meta">
-          <h3>Meu papel</h3>
+          <h3>{{ text.projectCaseStudy.role }}</h3>
           <p>{{ project.role }}</p>
           <h3>Stack</h3>
           <p>{{ project.stack }}</p>
-          <h3>Resultado e aprendizados</h3>
+          <h3>{{ text.projectCaseStudy.result }}</h3>
           <p>{{ project.result }}</p>
-          <a class="github-link" :href="project.link" target="_blank" rel="noopener noreferrer">
-            Link <ArrowUpRight :size="16" aria-hidden="true" />
+          <a
+            v-if="project.link"
+            class="github-link"
+            :href="project.link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ text.projectCaseStudy.link }} <ArrowUpRight :size="16" aria-hidden="true" />
           </a>
         </aside>
       </div>

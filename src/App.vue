@@ -1,5 +1,6 @@
 <script setup>
-import { nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { portfolioText } from './data/portfolio.js'
 import AboutSection from './components/AboutSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import ExperienceSection from './components/ExperienceSection.vue'
@@ -13,18 +14,52 @@ import TechnologySection from './components/TechnologySection.vue'
 const scrollProgress = ref(0)
 const presentationStage = ref('hero')
 const PRESENTATION_COMPLETED_KEY = 'portfolio-presentation-completed'
+const LANGUAGE_KEY = 'portfolio-language'
 const isFullPage = ref(readPresentationStatus())
 const isAssembling = ref(false)
+const currentLanguage = ref(readLanguagePreference())
+const currentText = computed(() => portfolioText[currentLanguage.value] ?? portfolioText.en)
 let assemblyTimeout
+
+function readLanguagePreference() {
+  try {
+    const savedLanguage = window.localStorage.getItem(LANGUAGE_KEY)
+    return savedLanguage && portfolioText[savedLanguage] ? savedLanguage : 'en'
+  } catch (error) {
+    console.error('Unable to read the selected language.', error)
+    return 'en'
+  }
+}
 
 function readPresentationStatus() {
   try {
     return window.localStorage.getItem(PRESENTATION_COMPLETED_KEY) === 'true'
   } catch (error) {
-    console.error('Não foi possível verificar o status da apresentação.', error)
+    console.error('Unable to verify the presentation status.', error)
     return false
   }
 }
+
+function setLanguage(language) {
+  if (!portfolioText[language]) return
+  currentLanguage.value = language
+}
+
+watch(
+  currentLanguage,
+  (language) => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = language
+    }
+
+    try {
+      window.localStorage.setItem(LANGUAGE_KEY, language)
+    } catch (error) {
+      console.error('Unable to save the selected language.', error)
+    }
+  },
+  { immediate: true },
+)
 
 function continuePresentation() {
   document.documentElement.scrollTop = 0
@@ -38,7 +73,7 @@ function continuePresentation() {
     try {
       window.localStorage.setItem(PRESENTATION_COMPLETED_KEY, 'true')
     } catch (error) {
-      console.error('Não foi possível salvar a conclusão da apresentação.', error)
+      console.error('Unable to save the presentation completion status.', error)
     }
 
     isAssembling.value = true
@@ -73,37 +108,49 @@ onUnmounted(() => window.removeEventListener('scroll', updateScrollProgress))
     <div v-if="isFullPage" class="scroll-progress" aria-hidden="true">
       <div class="scroll-progress-value" :style="{ width: `${scrollProgress}%` }"></div>
     </div>
-    <SiteHeader v-if="isFullPage" :class="{ 'page-assembly-header': isAssembling }" />
+    <SiteHeader
+      v-if="isFullPage"
+      :class="{ 'page-assembly-header': isAssembling }"
+      :language="currentLanguage"
+      @set-language="setLanguage"
+    />
     <main :class="{ 'page-assembly-content': isAssembling }">
       <Transition name="stage" mode="out-in">
         <div v-if="!isFullPage" :key="presentationStage">
           <HeroSection
             v-if="presentationStage === 'hero'"
             presentation
+            :language="currentLanguage"
             @continue="continuePresentation"
           />
           <AboutSection
             v-else-if="presentationStage === 'about'"
             presentation
+            :language="currentLanguage"
             @continue="continuePresentation"
           />
           <ProjectsSection
             v-else
             presentation
+            :language="currentLanguage"
             @continue="continuePresentation"
           />
         </div>
       </Transition>
       <template v-if="isFullPage">
-        <HeroSection />
-        <AboutSection />
-        <ExperienceSection />
-        <TechnologySection />
-        <ProjectsSection />
-        <ContactSection />
+        <HeroSection :language="currentLanguage" />
+        <AboutSection :language="currentLanguage" />
+        <ExperienceSection :language="currentLanguage" />
+        <TechnologySection :language="currentLanguage" />
+        <ProjectsSection :language="currentLanguage" />
+        <ContactSection :language="currentLanguage" />
       </template>
     </main>
-    <SiteFooter v-if="isFullPage" :class="{ 'page-assembly-footer': isAssembling }" />
+    <SiteFooter
+      v-if="isFullPage"
+      :class="{ 'page-assembly-footer': isAssembling }"
+      :language="currentLanguage"
+    />
   </div>
 </template>
 

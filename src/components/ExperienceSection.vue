@@ -1,10 +1,18 @@
 <script setup>
-import { experiences } from '../data/portfolio.js'
+import { computed } from 'vue'
+import { experiences, portfolioText } from '../data/portfolio.js'
+
+const props = defineProps({
+  language: {
+    type: String,
+    default: 'en',
+  },
+})
 
 const markers = ['gold', 'blue']
 const baseUrl = import.meta.env.BASE_URL
-
-
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+const experienceList = computed(() => experiences[props.language] ?? experiences.en)
 </script>
 
 <template>
@@ -12,25 +20,25 @@ const baseUrl = import.meta.env.BASE_URL
     <div class="page-container">
       <div class="section-heading">
         <div class="section-text">
-        <p class="eyebrow">02 / Experiências</p>
-        <h2>Caminhos que me trouxeram até aqui</h2>
-        <p class="section-intro">
-          Experiências que me ensinaram a olhar além do código e a encontrar novas possibilidades para cada produto.
-        </p>
+          <p class="eyebrow">{{ text.experience.eyebrow }}</p>
+          <h2>{{ text.experience.title }}</h2>
+          <p class="section-intro">
+            {{ text.experience.intro }}
+          </p>
         </div>
         <a
           class="resume-download"
           :href="`${baseUrl}THAYANE%20-%20RESUME.pdf`"
           download="Thayane-Nascimento-Curriculo.pdf"
         >
-        <v-icon name="hi-download" fill="white" aria-hidden="true" />
-          Baixar currículo completo
+          <v-icon name="hi-download" fill="white" aria-hidden="true" />
+          {{ text.experience.download }}
         </a>
       </div>
 
       <div class="experience-list">
         <article
-          v-for="(experience, index) in experiences"
+          v-for="(experience, index) in experienceList"
           :key="`${experience.company}-${index}`"
           class="experience-card"
         >

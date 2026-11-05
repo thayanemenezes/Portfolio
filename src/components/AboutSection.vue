@@ -1,16 +1,22 @@
 <script setup>
+import { computed } from 'vue'
 import { ArrowUpRight } from '@lucide/vue'
+import { portfolioText } from '../data/portfolio.js'
 
-defineProps({
+const props = defineProps({
   presentation: {
     type: Boolean,
     default: false,
   },
+  language: {
+    type: String,
+    default: 'en',
+  },
 })
 
-defineEmits(['continue'])
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
 
-const technologies = ['JavaScript', 'React', 'TypeScript', 'HTML & CSS', 'UX orientada a produto', 'Next.js']
+defineEmits(['continue'])
 </script>
 
 <template>
@@ -20,26 +26,18 @@ const technologies = ['JavaScript', 'React', 'TypeScript', 'HTML & CSS', 'UX ori
       <div class="about-visual">
         <div class="visual-frame" aria-hidden="true"></div>
         <img class="about-image" src="../assets/thayane.png"
-          alt="Profissional de tecnologia trabalhando em frente a dois monitores." loading="lazy" />
+          alt="Technology professional working in front of two monitors." loading="lazy" />
       </div>
 
       <div class="about-copy">
-        <p class="eyebrow">01 / Quem sou eu</p>
-        <h3>Tecnologia para inovar e criar</h3>
-        <p>
-          Desde criança, a tecnologia sempre despertou minha curiosidade. Quando ganhei meu primeiro computador, na época da internet discada, fiquei fascinada com a forma como aquelas máquinas conseguiam conectar pessoas, ideias e informações.  
+        <p class="eyebrow">{{ text.about.eyebrow }}</p>
+        <h3>{{ text.about.title }}</h3>
+        <p v-for="(paragraph, index) in text.about.paragraphs" :key="`${paragraph}-${index}`">
+          {{ paragraph }}
         </p>
-        <p>
-Em 2017, entrei no mundo da programação e reencontrei aquela mesma sensação de encantamento que sentia ao passar noites navegando na internet. A diferença é que, dessa vez, eu podia entender como tudo aquilo funcionava e, mais do que isso, criar meus próprios sistemas.
-        </p>
-        <p> Em 2019, comecei minha trajetória profissional com um estágio como técnica de informática. Alguns meses depois, passei a atuar como designer até conquistar minha primeira oportunidade como desenvolvedora full-stack. Desde então, trabalhei em projetos de diferentes áreas, como e-commerce, setor automobilístico, saúde e educação, sempre buscando formas de criar, aprimorar e evoluir produtos.
-        </p>
-        <p>
-          Em boa parte dos projetos que participei, fui responsável por migrar sistemas legados para novas tecnologias e arquitetura, garantindo que os produtos evoluíssem de forma escalável. Em cada projeto, busquei entender o contexto do negócio, os objetivos do produto e as necessidades dos usuários para criar soluções que fizessem sentido. 
-        </p>
-        
+
         <button v-if="presentation" class="flow-continue" type="button" @click="$emit('continue')">
-          Continuar
+          {{ text.about.continue }}
           <ArrowUpRight :size="16" aria-hidden="true" />
         </button>
       </div>
@@ -233,6 +231,10 @@ Em 2017, entrei no mundo da programação e reencontrei aquela mesma sensação 
 
   .about-image {
     height: clamp(300px, 72vw, 440px);
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
   }
 }
 </style>

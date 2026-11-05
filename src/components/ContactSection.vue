@@ -1,20 +1,29 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { BriefcaseBusiness, CodeXml, Mail, Send } from '@lucide/vue'
-import { contact } from '../data/portfolio.js'
+import { contact, portfolioText } from '../data/portfolio.js'
 
+const props = defineProps({
+  language: {
+    type: String,
+    default: 'en',
+  },
+})
+
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+const currentContact = computed(() => contact[props.language] ?? contact.en)
 const name = ref('')
 const email = ref('')
 const message = ref('')
 const formStatus = ref('')
 
 function submitContact() {
-  const subject = encodeURIComponent(`Contato pelo portfólio de ${name.value.trim()}`)
+  const subject = encodeURIComponent(`${text.value.contact.emailSubject} ${name.value.trim()}`)
   const body = encodeURIComponent(
-    `${message.value.trim()}\n\nNome: ${name.value.trim()}\nE-mail: ${email.value.trim()}`,
+    `${message.value.trim()}\n\n${text.value.contact.labels.name}: ${name.value.trim()}\n${text.value.contact.labels.email}: ${email.value.trim()}`,
   )
-  formStatus.value = 'Seu aplicativo de e-mail será aberto com a mensagem pronta para envio.'
-  window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`
+  formStatus.value = text.value.contact.formStatus
+  window.location.href = `mailto:${currentContact.value.email}?subject=${subject}&body=${body}`
 }
 </script>
 
@@ -22,63 +31,61 @@ function submitContact() {
   <section id="contato" class="contact-section section-space">
     <div class="page-container contact-grid">
       <div class="contact-copy">
-        <p class="eyebrow">04 / Contato</p>
-        <h2>Vamos construir algo que faça sentido?</h2>
+        <p class="eyebrow">{{ text.contact.eyebrow }}</p>
+        <h2>{{ text.contact.title }}</h2>
         <p class="contact-intro">
-          Estou aberta a conversar sobre oportunidades, produtos digitais e colaborações. Envie uma
-          mensagem e retornarei assim que possível.
+          {{ text.contact.intro }}
         </p>
         <div class="social-links">
-          <a :href="contact.github" target="_blank" rel="noopener noreferrer">
+          <a :href="currentContact.github" target="_blank" rel="noopener noreferrer">
             <CodeXml :size="19" aria-hidden="true" /> GitHub
           </a>
-          <a :href="contact.linkedin" target="_blank" rel="noopener noreferrer">
+          <a :href="currentContact.linkedin" target="_blank" rel="noopener noreferrer">
             <BriefcaseBusiness :size="19" aria-hidden="true" /> LinkedIn
           </a>
-          <a :href="`mailto:${contact.email}`">
-            <Mail :size="19" aria-hidden="true" /> {{ contact.email }}
+          <a :href="`mailto:${currentContact.email}`">
+            <Mail :size="19" aria-hidden="true" /> {{ currentContact.email }}
           </a>
         </div>
       </div>
 
       <form class="contact-form" @submit.prevent="submitContact">
         <div class="form-field">
-          <label for="contact-name">Nome</label>
+          <label for="contact-name">{{ text.contact.labels.name }}</label>
           <input
             id="contact-name"
             v-model="name"
             autocomplete="name"
             name="name"
-            placeholder="Como posso te chamar?"
-            
+            :placeholder="text.contact.placeholders.name"
             required
           />
         </div>
         <div class="form-field">
-          <label for="contact-email">E-mail</label>
+          <label for="contact-email">{{ text.contact.labels.email }}</label>
           <input
             id="contact-email"
             v-model="email"
             autocomplete="email"
             name="email"
-            placeholder="voce@empresa.com"
+            :placeholder="text.contact.placeholders.email"
             required
             type="email"
           />
         </div>
         <div class="form-field">
-          <label for="contact-message">Mensagem</label>
+          <label for="contact-message">{{ text.contact.labels.message }}</label>
           <textarea
             id="contact-message"
             v-model="message"
             name="message"
-            placeholder="Conte um pouco sobre a oportunidade ou ideia."
+            :placeholder="text.contact.placeholders.message"
             required
             rows="5"
           ></textarea>
         </div>
         <button class="button button-primary submit-button" type="submit">
-          Enviar mensagem <Send :size="16" aria-hidden="true" />
+          {{ text.contact.submit }} <Send :size="16" aria-hidden="true" />
         </button>
         <p class="form-status" aria-live="polite">{{ formStatus }}</p>
       </form>

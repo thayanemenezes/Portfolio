@@ -1,4 +1,15 @@
 <script setup>
+import { computed } from 'vue'
+import { portfolioText } from '../data/portfolio.js'
+
+const props = defineProps({
+  language: {
+    type: String,
+    default: 'en',
+  },
+})
+
+const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
 const technologies = [
   { id: 'javascript', name: 'JavaScript', mark: 'JS' },
   { id: 'react', name: 'React' },
@@ -17,16 +28,16 @@ const technologies = [
 </script>
 
 <template>
-  <section id="tecnologias" class="technology-section" aria-label="Tecnologias">
+  <section id="tecnologias" class="technology-section" :aria-label="text.technologies.title">
     <div class="page-container technology-content">
-      <h2>Tecnologias</h2>
+      <h2>{{ text.technologies.title }}</h2>
       <div class="technology-marquee">
         <div class="technology-track">
           <ul
             v-for="(isDuplicate, groupIndex) in [false, true]"
             :key="groupIndex"
             class="technology-group"
-            :aria-label="isDuplicate ? undefined : 'Tecnologias utilizadas'"
+            :aria-label="isDuplicate ? undefined : text.technologies.ariaLabel"
             :aria-hidden="isDuplicate ? 'true' : null"
           >
             <li
