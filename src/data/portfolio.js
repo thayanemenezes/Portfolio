@@ -38,6 +38,25 @@ export const projects = [
     detailImage: `${import.meta.env.BASE_URL}asterismo-2.png`,
     link: 'https://www.magicauthor.ai/',
   },
+{
+  id: 'astehub',
+  category: 'web',
+  categoryLabel: 'Web',
+  title: 'AsteHub',
+  summary: `Plataforma SaaS multi-tenant e white-label para centralizar a gestão de catálogos, unidades, leads e sites de empresas e franquias.`,
+  image: `${import.meta.env.BASE_URL}astehub-1.png`,
+  imageAlt: 'Site Plataforma',
+  role: 'Idealizadora e Desenvolvedora Full Stack',
+  stack: 'Next.js, React, TypeScript, NestJS, Prisma, PostgreSQL, TailwindCSS, Docker, Turborepo',
+  context:
+    'O AsteHub nasceu da experiência com sistemas de gestão para redes e franquias e da identificação de uma oportunidade: permitir que empresas com múltiplas unidades gerenciem suas operações digitais em uma única plataforma. O desafio é desenvolver uma solução SaaS multi-tenant, com isolamento de dados entre organizações, capaz de centralizar catálogos, unidades, usuários, leads e sites públicos personalizados, sem exigir uma implementação independente para cada cliente.',
+  process:
+    'Sou responsável pela idealização, definição do escopo, arquitetura e desenvolvimento Full Stack da plataforma. Estruturei o projeto em um monorepo com Next.js, NestJS, Prisma e PostgreSQL, adotando uma arquitetura modular e desenvolvimento orientado a testes. Implementei a base de autenticação com sessões persistentes, cookies HttpOnly e controle de acesso por organização. Também defini a estrutura para evolução dos módulos de catálogo, unidades, captação de leads e publicação de sites white-label, priorizando reutilização de componentes, separação de responsabilidades, segurança e escalabilidade.',
+  result:
+    'O projeto já conta com uma base de autenticação e arquitetura multi-tenant em desenvolvimento, além da estrutura inicial de infraestrutura e deploy. A plataforma segue em evolução para seu MVP, com foco em oferecer uma solução centralizada, personalizável e preparada para atender diferentes empresas e redes de franquias. O AsteHub também representa a aplicação prática da minha experiência em desenvolvimento de produtos, desde a concepção e modelagem até a implementação e infraestrutura.',
+  detailImage: `${import.meta.env.BASE_URL}astehub-2.png`,
+  link: '',
+},
   {
     id: 'platform',
     category: 'web',

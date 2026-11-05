@@ -20,8 +20,8 @@ defineEmits(['continue'])
 
     <div class="hero-content page-container">
       <h2>Sou Thayane Nascimento,</h2>
-      <h1>E este é o meu universo.</h1>
-      <p class="hero-description">Desenvolvedora Full Stack com 6+ anos de experiência. Profissional que questiona, entende, cria e transforma ideias em soluções digitais úteis e feitas para evoluir.</p>
+      <h1>Crio experiências em um universo de possibilidades.</h1>
+      <p class="hero-description">Desenvolvedora Full Stack com mais de 6 anos de experiência, conectando engenharia, design e visão de produto.</p>
       <div class="hero-actions">
         <button
           v-if="presentation"
@@ -148,6 +148,7 @@ h1 {
   background: var(--color-violet);
   box-shadow: 0 0 30px rgb(123 92 246 / 26%);
   color: white;
+  cursor: pointer;
 }
 
 .button-primary:hover {

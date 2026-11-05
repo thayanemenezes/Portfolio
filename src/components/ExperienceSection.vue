@@ -9,11 +9,13 @@ const baseUrl = import.meta.env.BASE_URL
   <section id="experiencias" class="experience-section section-space">
     <div class="page-container">
       <div class="section-heading">
+        <div class="section-text">
         <p class="eyebrow">02 / Experiências</p>
         <h2>Caminhos que me trouxeram até aqui</h2>
         <p class="section-intro">
           Experiências que me ensinaram a olhar além do código e a encontrar novas possibilidades para cada produto.
         </p>
+        </div>
         <a
           class="resume-download"
           :href="`${baseUrl}THAYANE%20-%20RESUME.pdf`"
@@ -52,7 +54,10 @@ const baseUrl = import.meta.env.BASE_URL
 }
 
 .section-heading {
-  max-width: 680px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .section-heading h2 {
@@ -62,6 +67,10 @@ const baseUrl = import.meta.env.BASE_URL
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.12;
+}
+
+.section-text{
+  flex: 1 1 auto;
 }
 
 .section-intro {
@@ -101,7 +110,6 @@ const baseUrl = import.meta.env.BASE_URL
 .experience-list {
   position: relative;
   display: grid;
-  max-width: 920px;
   gap: 24px;
   margin-top: 50px;
   padding-left: 34px;
