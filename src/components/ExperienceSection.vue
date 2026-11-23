@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { Download } from '@lucide/vue'
 import { experiences, portfolioText } from '../data/portfolio.js'
 
 const props = defineProps({
@@ -9,7 +10,6 @@ const props = defineProps({
   },
 })
 
-const markers = ['gold', 'blue']
 const baseUrl = import.meta.env.BASE_URL
 const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
 const experienceList = computed(() => experiences[props.language] ?? experiences.en)
@@ -18,40 +18,44 @@ const experienceList = computed(() => experiences[props.language] ?? experiences
 <template>
   <section id="experiencias" class="experience-section section-space">
     <div class="page-container">
-      <div class="section-heading">
-        <div class="section-text">
-          <p class="eyebrow">{{ text.experience.eyebrow }}</p>
-          <h2>{{ text.experience.title }}</h2>
-          <p class="section-intro">
-            {{ text.experience.intro }}
-          </p>
+      <!-- Section Header -->
+
+      <div class="section-header-row">
+        <div class="section-title-wrap">
+          <h2 class="section-title">{{ text.experience.title }}</h2>
+          <p class="section-intro">{{ text.experience.intro }}</p>
         </div>
+
         <a
-          class="resume-download"
+          class="cyber-btn cyber-btn-secondary download-btn"
           :href="`${baseUrl}THAYANE%20-%20RESUME.pdf`"
           download="Thayane-Nascimento-Curriculo.pdf"
         >
-          <v-icon name="hi-download" fill="white" aria-hidden="true" />
-          {{ text.experience.download }}
+          <Download :size="16" aria-hidden="true" />
+          <span>{{ text.experience.download }}</span>
         </a>
       </div>
 
-      <div class="experience-list">
+      <!-- Experience List -->
+      <div class="experience-timeline">
         <article
           v-for="(experience, index) in experienceList"
           :key="`${experience.company}-${index}`"
           class="experience-card"
         >
-          <span :class="['timeline-marker', markers[index % markers.length]]" aria-hidden="true"></span>
-          <div class="experience-topline">
-            <div>
-              <h3>{{ experience.role }}</h3>
-              <p class="company-name">{{ experience.company }}</p>
-            </div>
-            <p class="period">{{ experience.period }}</p>
+          <div class="card-left">
+            <span class="period-text">{{ experience.period }}</span>
+            <span class="company-name">{{ experience.company }}</span>
           </div>
-          <p class="experience-description">{{ experience.description }}</p>
-          <p :class="['experience-result', markers[index % markers.length]]">{{ experience.result }}</p>
+
+          <div class="card-right">
+            <h3 class="role-title">{{ experience.role }}</h3>
+            <p class="role-desc">{{ experience.description }}</p>
+            <div class="result-box">
+              <span class="result-label">{{ language === 'pt-BR' ? 'Impacto:' : 'Impact:' }}</span>
+              <span class="result-text">{{ experience.result }}</span>
+            </div>
+          </div>
         </article>
       </div>
     </div>
@@ -60,178 +64,162 @@ const experienceList = computed(() => experiences[props.language] ?? experiences
 
 <style scoped>
 .experience-section {
-  border-block: 1px solid var(--color-line);
-  background: rgb(16 17 20 / 88%);
+  position: relative;
+  background-color: var(--color-bg-base);
+  border-bottom: 1px solid var(--color-line-cyber);
 }
 
-.section-heading {
+.section-top-label {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-  
-.section-heading h2 {
-  margin-top: 16px;
-  color: var(--color-text);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.12;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: 32px;
 }
 
-.section-text{
-  flex: 1 1 auto;
-  max-width: 650px;
+.label-number {
+  color: var(--color-cobalt-bright);
+  font-weight: 700;
+}
+
+.label-divider {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.label-title {
+  color: #cbd5e1;
+}
+
+.section-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+
+.section-title-wrap {
+  max-width: 680px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
 .section-intro {
-  margin-top: 18px;
-  color: var(--color-muted-light);
-  line-height: 1.7;
+  margin-top: 14px;
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 
-.resume-download {
-  display: inline-flex;
-  flex: 0 0 auto;
-  min-height: 46px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
-  padding: 0 18px;
-  border: 1px solid var(--color-violet);
-  border-radius: 6px;
-  background: var(--color-violet);
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 700;
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease;
+.download-btn {
+  flex-shrink: 0;
 }
 
-.resume-download:hover {
-  transform: translateY(-2px);
-  background: #876cf0;
-}
-
-.resume-download:focus-visible {
-  outline: 2px solid var(--color-signal);
-  outline-offset: 3px;
-}
-
-.experience-list {
-  position: relative;
-  display: grid;
-  gap: 24px;
-  margin-top: 50px;
-  padding-left: 34px;
-}
-
-.experience-list::before {
-  position: absolute;
-  top: 24px;
-  bottom: 24px;
-  left: 7px;
-  width: 1px;
-  background: linear-gradient(var(--color-violet), var(--color-blue), transparent);
-  content: '';
+/* Timeline Cards */
+.experience-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .experience-card {
-  position: relative;
-  padding: clamp(22px, 4vw, 34px);
-  
-  border-radius: 8px;
-  background: rgb(9 10 12 / 82%);
-
+  display: grid;
+  grid-template-columns: minmax(200px, 0.7fr) minmax(0, 1.6fr);
+  gap: 36px;
+  padding: clamp(24px, 3.5vw, 36px);
+  border-radius: 4px;
+  background: rgba(7, 8, 16, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 220ms ease;
 }
 
-.timeline-marker {
-  position: absolute;
-  top: 32px;
-  left: -34px;
-  width: 14px;
-  aspect-ratio: 1;
-  border: 3px solid #101114;
-  border-radius: 50%;
+.experience-card:hover {
+  background: rgba(10, 12, 24, 0.9);
+  border-color: rgba(0, 71, 255, 0.25);
 }
 
-.timeline-marker.gold {
-  background: var(--color-signal);
-  box-shadow: 0 0 14px var(--color-signal);
-}
-
-.timeline-marker.blue {
-  background: var(--color-blue);
-  box-shadow: 0 0 14px var(--color-blue);
-}
-
-.experience-topline {
+.card-left {
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.experience-card h3 {
-  color: var(--color-text);
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.company-name {
-  margin-top: 5px;
-  color: #c8d5ff;
-}
-
-.period {
-  flex: 0 0 auto;
-  color: #b6c1ea;
+.period-text {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-}
-
-.experience-description {
-  margin-top: 22px;
-  color: var(--color-muted-light);
-  line-height: 1.7;
-}
-
-.experience-result {
-  margin-top: 16px;
-  padding-left: 14px;
-  border-left: 2px solid;
-  font-size: 0.92rem;
+  font-size: 0.85rem;
+  color: var(--color-cobalt-bright);
   font-weight: 600;
 }
 
-.experience-result.gold { border-color: var(--color-signal); color: #fff0ad; }
-.experience-result.blue { border-color: var(--color-blue); color: #a8d9ff; }
+.company-name {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 600;
+}
 
-@media (max-width: 900px) {
-  .section-heading {
+.card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.role-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.role-desc {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.result-box {
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.result-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-cobalt-bright);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.result-text {
+  color: #d1d9ec;
+}
+
+@media (max-width: 860px) {
+  .section-header-row {
     flex-direction: column;
     align-items: flex-start;
   }
-}
 
-@media (max-width: 600px) {
-  .experience-list {
-    padding-left: 24px;
-  }
-
-  .experience-list::before {
-    left: 4px;
-  }
-
-  .timeline-marker {
-    left: -26px;
-  }
-
-  .experience-topline {
-    flex-direction: column;
+  .experience-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 </style>

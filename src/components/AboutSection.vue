@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { ArrowUpRight } from '@lucide/vue'
+import { ArrowRight } from '@lucide/vue'
 import { portfolioText } from '../data/portfolio.js'
 
 const props = defineProps({
@@ -20,26 +20,56 @@ defineEmits(['continue'])
 </script>
 
 <template>
-  <section id="apresentacao"
-    :class="['about-section', 'section-orbit', 'section-space', { 'is-presentation': presentation }]">
-    <div class="page-container about-grid">
-      <div class="about-visual">
-        <div class="visual-frame" aria-hidden="true"></div>
-        <img class="about-image" src="../assets/thayane.png"
-          alt="Technology professional working in front of two monitors." loading="lazy" />
-      </div>
+  <section
+    id="apresentacao"
+    :class="['about-section']"
+  >
+    <div class="page-container">
+      <!-- Section Header -->
 
-      <div class="about-copy">
-        <p class="eyebrow">{{ text.about.eyebrow }}</p>
-        <h3>{{ text.about.title }}</h3>
-        <p v-for="(paragraph, index) in text.about.paragraphs" :key="`${paragraph}-${index}`">
-          {{ paragraph }}
-        </p>
+      <div class="about-grid">
+        <!-- Visual Column -->
+        <div class="about-visual">
+          <div class="image-wrapper">
+            <img
+              class="about-image"
+              src="../assets/thayane.png"
+              alt="Thayane Nascimento working at development setup"
+              loading="lazy"
+            />
+          </div>
+        </div>
 
-        <button v-if="presentation" class="flow-continue" type="button" @click="$emit('continue')">
-          {{ text.about.continue }}
-          <ArrowUpRight :size="16" aria-hidden="true" />
-        </button>
+        <!-- Copy Column -->
+        <div class="about-copy">
+          <h2 class="about-heading">{{ text.about.title }}</h2>
+
+          <div class="paragraphs-wrap">
+            <p
+              v-for="(paragraph, index) in text.about.paragraphs"
+              :key="`${paragraph}-${index}`"
+              class="about-p"
+            >
+              {{ paragraph }}
+            </p>
+          </div>
+
+          <!-- Clean Tech Pills -->
+          <div class="tech-chips-row">
+            <span class="tech-chip">React / Next.js</span>
+            <span class="tech-chip">TypeScript</span>
+            <span class="tech-chip">NestJS</span>
+            <span class="tech-chip">Multi-tenant SaaS</span>
+            <span class="tech-chip">AI Integration</span>
+          </div>
+
+          <div v-if="presentation" class="presentation-action">
+            <button class="cyber-btn" type="button" @click="$emit('continue')">
+              <span>{{ text.about.continue }}</span>
+              <ArrowRight :size="16" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -48,193 +78,132 @@ defineEmits(['continue'])
 <style scoped>
 .about-section {
   position: relative;
+  background-color: var(--color-bg-base);
+  border-bottom: 1px solid var(--color-line-cyber);
+  padding: 40px 0;
 }
 
 .about-section.is-presentation {
   min-height: 100vh;
 }
 
-.about-copy {
-  position: relative;
-  isolation: isolate;
+.section-top-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: 36px;
 }
 
-.about-copy::before {
-  position: absolute;
-  z-index: -1;
-  inset: -18px -22px;
+.label-number {
+  color: var(--color-cobalt-bright);
+  font-weight: 700;
+}
 
-  border-radius: 10px;
-  background: rgb(9 10 12 / 82%);
-  box-shadow: 0 18px 54px rgb(0 0 0 / 22%);
-  backdrop-filter: blur(18px);
-  content: '';
-  pointer-events: none;
+.label-divider {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.label-title {
+  color: #cbd5e1;
 }
 
 .about-grid {
   display: grid;
-  align-items: center;
-  gap: clamp(56px, 9vw, 120px);
+  align-items: start;
+  gap: clamp(40px, 5vw, 72px);
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
 }
 
+/* Image */
 .about-visual {
-  position: relative;
-  min-width: 0;
-  padding: 12px 16px 24px 0;
+  width: 100%;
 }
 
-.visual-frame {
-  position: absolute;
-  inset: -4px 0 38px 18px;
-  border: 1px solid rgb(142 117 240 / 25%);
-  border-radius: 8px;
+.image-wrapper {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 8, 16, 0.8);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 .about-image {
-  position: relative;
   width: 100%;
-  height: 510px;
-  border-radius: 6px;
-  filter: saturate(0.8);
+  height: clamp(360px, 38vw, 480px);
   object-fit: cover;
-  object-position: top;
+  object-position: center top;
+  filter: contrast(1.04);
+  transition: transform 300ms ease;
 }
 
-.image-note {
-  position: absolute;
-  right: -8px;
-  bottom: 0;
-  width: min(230px, 75%);
-  padding: 18px 20px;
-  border: 1px solid var(--color-line);
-  border-radius: 6px;
-  background: linear-gradient(145deg, #191d3b, #0d1025);
-  box-shadow: 0 18px 60px rgb(0 0 0 / 20%);
+.image-wrapper:hover .about-image {
+  transform: scale(1.02);
 }
 
-.note-label {
-  color: var(--color-lilac);
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* Copy */
+.about-copy {
+  display: flex;
+  flex-direction: column;
 }
 
-.image-note p {
-  margin-top: 8px;
-  color: var(--color-text);
-  font-size: 0.95rem;
+.about-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
 }
 
-.about-copy h3,
-.section-heading h3,
-.contact-copy h3 {
-  margin-top: 16px;
-  color: var(--color-text);
-  font-size: clamp(1.85rem, 4vw, 2.5rem);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.12;
+.paragraphs-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.about-copy>p:not(.eyebrow) {
-  max-width: 660px;
-  margin-top: 22px;
-  color: var(--color-muted-light);
+.about-p {
+  color: var(--color-text-muted);
+  font-size: 1.02rem;
   line-height: 1.75;
 }
 
-.about-copy>p+p:not(.eyebrow) {
-  margin-top: 14px;
-}
-
-.technology-block {
-  margin-top: 34px;
-}
-
-.technology-block h3 {
-  color: var(--color-text);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.technology-list {
+.tech-chips-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
-  padding: 0;
-  list-style: none;
-}
-
-.technology-list li {
-  padding: 7px 11px;
-  border: 1px solid rgb(160 179 255 / 24%);
-  border-radius: 999px;
-  background: rgb(83 104 194 / 12%);
-  color: #dbe4ff;
-  font-size: 0.82rem;
-}
-
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   margin-top: 28px;
-  color: var(--color-signal);
-  font-size: 0.9rem;
-  font-weight: 700;
 }
 
-.flow-continue {
+.tech-chip {
   display: inline-flex;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: #cbd5e1;
+}
+
+.presentation-action {
   margin-top: 28px;
-  padding: 0 20px;
-  border: 0;
-  border-radius: 6px;
-  background: var(--color-violet);
-  box-shadow: 0 0 30px rgb(123 92 246 / 26%);
-  color: white;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 700;
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease;
 }
 
-.flow-continue:hover {
-  transform: translateY(-2px);
-  background: #876cf0;
-}
-
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .about-grid {
-    gap: 48px;
     grid-template-columns: 1fr;
-  }
-
-  .about-visual {
-    width: min(100%, 600px);
-    margin-inline: auto;
+    gap: 36px;
   }
 
   .about-image {
-    height: clamp(300px, 72vw, 440px);
-  }
-
-  h3 {
-    font-size: clamp(1.5rem, 4vw, 2rem);
+    height: 380px;
   }
 }
 </style>

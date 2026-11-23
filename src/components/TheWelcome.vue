@@ -22,9 +22,9 @@ const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
   </WelcomeItem>
 
   <WelcomeItem>
-    <template #icon>
+    
       <ToolingIcon />
-    </template>
+    
     <template #heading>Tooling</template>
 
     This project is served and bundled with

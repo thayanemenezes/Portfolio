@@ -1,23 +1,52 @@
 :root {
-  font-family: 'DM Sans', sans-serif;
-  color: #f3f5ff;
-  background: #090a0c;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #f4f6fc;
+  background: #030305;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-background: rgba(7, 7, 7, 0.88);
-  --color-ink: #0b0c0d;
-  --color-text: #f3f5ff;
-  --color-muted: #aeb6d8;
-  --color-muted-light: #d4daf5;
-  --color-line: rgb(172 184 255 / 18%);
-  --color-violet: #7657d8;
-  --color-lilac: #a99aff;
-  --color-blue: #4ea9ff;
-  --color-signal: #ffd84d;
-  --font-mono: 'Space Mono', monospace;
+  /* Colors: Cobalt Blue (Primary) & Purple (Secondary) */
+  --color-cobalt: #0047FF;
+  --color-cobalt-bright: #1A62FF;
+  --color-cobalt-glow: rgba(0, 71, 255, 0.45);
+  --color-cobalt-subtle: rgba(0, 71, 255, 0.12);
+  --color-cobalt-border: rgba(0, 71, 255, 0.32);
+
+  --color-purple: #8B5CF6;
+  --color-purple-bright: #A855F7;
+  --color-purple-glow: rgba(139, 92, 246, 0.45);
+  --color-purple-subtle: rgba(139, 92, 246, 0.12);
+  --color-purple-border: rgba(139, 92, 246, 0.3);
+
+  /* Backgrounds: Deep black with cyber tints */
+  --color-bg-base: #030305;
+  --color-bg-surface: #07080f;
+  --color-bg-surface-elevated: #0d0f1c;
+  --color-bg-glass: rgba(7, 8, 15, 0.78);
+  --color-bg-card: rgba(10, 12, 22, 0.85);
+
+  /* Text colors */
+  --color-text: #f4f6fc;
+  --color-text-muted: #949eb8;
+  --color-text-dim: #5c657e;
+  --color-text-highlight: #ffffff;
+
+  /* Lines & Borders */
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-cyber: rgba(0, 71, 255, 0.25);
+  --color-line-purple: rgba(139, 92, 246, 0.22);
+
+  /* Signal / Accents */
+  --color-signal: #00d2ff;
+  --color-neon-purple: #c084fc;
+  --color-neon-blue: #38bdf8;
+
+  /* Fonts */
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
 }
 
 *,
@@ -30,16 +59,39 @@ html {
   min-width: 320px;
   scroll-behavior: smooth;
   scroll-padding-top: 88px;
+  background-color: #030305;
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: #090a0c;
+  background: #030305;
   color: var(--color-text);
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom Cyberpunk Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030305;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #151930;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 71, 255, 0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cobalt);
+  box-shadow: 0 0 10px var(--color-cobalt-glow);
 }
 
 button,
@@ -55,14 +107,16 @@ a {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid var(--color-signal);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-cobalt);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px var(--color-cobalt-glow);
 }
 
 img {
@@ -73,40 +127,154 @@ img {
 h1,
 h2,
 h3,
+h4,
+h5,
+h6,
 p {
   margin: 0;
 }
 
 .page-container {
-  width: min(100% - 48px, 1240px);
+  width: min(100% - 64px, 1440px);
   margin-inline: auto;
 }
 
 .section-space {
-  padding-block: clamp(84px, 10vw, 132px);
+  padding-block: clamp(90px, 11vw, 140px);
 }
 
-.section-orbit {
+/* Cyber HUD Elements & Inspired by Olivia Dia */
+.cyber-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--color-line-cyber);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.cyber-top-bar .index {
+  color: var(--color-cobalt-bright);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cyber-top-bar .meta {
+  color: var(--color-purple-bright);
+}
+
+/* Cyber Crosshair / Plus icon */
+.cyber-cross {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--color-cobalt);
+  opacity: 0.8;
+}
+
+/* Cyber Badge */
+.cyber-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid var(--color-cobalt-border);
+  background: rgba(0, 71, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #8bb5ff;
+  text-transform: uppercase;
+}
+
+.cyber-tag.purple {
+  border-color: var(--color-purple-border);
+  background: rgba(139, 92, 246, 0.08);
+  color: #c4b5fd;
+}
+
+/* Cyber Button */
+.cyber-btn {
+  position: relative;
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border: 1px solid var(--color-cobalt);
+  border-radius: 2px;
+  background: var(--color-cobalt);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 71, 255, 0.35);
+  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  isolation: isolate;
 }
 
-.section-orbit::before {
-  position: absolute;
-  z-index: -1;
-  top: 80px;
-  right: -330px;
-  width: 540px;
-  aspect-ratio: 1;
-  border: 1px solid rgb(134 92 246 / 19%);
-  border-radius: 50%;
+.cyber-btn::before {
   content: '';
-  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 400ms ease;
+}
+
+.cyber-btn:hover {
+  transform: translateY(-2px);
+  background: var(--color-cobalt-bright);
+  box-shadow: 0 0 30px rgba(0, 71, 255, 0.6);
+  border-color: #5990ff;
+}
+
+.cyber-btn:hover::before {
+  left: 100%;
+}
+
+.cyber-btn-secondary {
+  background: rgba(7, 8, 18, 0.85);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #f4f6fc;
+  box-shadow: none;
+}
+
+.cyber-btn-secondary:hover {
+  background: rgba(15, 18, 38, 0.95);
+  border-color: var(--color-purple);
+  box-shadow: 0 0 22px var(--color-purple-glow);
+  color: #ffffff;
+}
+
+/* Subtle futuristic scanline effect overlay if desired */
+.cyber-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
 }
 
 @media (max-width: 600px) {
   .page-container {
-    width: min(100% - 40px, 1240px);
+    width: min(100% - 32px, 1260px);
   }
 
   html {

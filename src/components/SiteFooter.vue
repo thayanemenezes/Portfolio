@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import { portfolioText } from '../data/portfolio.js'
+import { ArrowUp } from '@lucide/vue'
+import { contact, portfolioText } from '../data/portfolio.js'
 
 const props = defineProps({
   language: {
@@ -10,13 +11,28 @@ const props = defineProps({
 })
 
 const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+const currentContact = computed(() => contact[props.language] ?? contact.en)
 </script>
 
 <template>
   <footer class="site-footer">
     <div class="page-container footer-content">
-      <p>© {{ new Date().getFullYear() }} Thayane Nascimento</p>
-      <a href="#inicio">{{ text.footer.backToTop }} ↑</a>
+      <div class="footer-left">
+        <p class="copyright">© {{ new Date().getFullYear() }} Thayane Nascimento</p>
+      </div>
+
+      <div class="footer-links">
+        <a :href="currentContact.github" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="sep">/</span>
+        <a :href="currentContact.linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <span class="sep">/</span>
+        <a :href="`mailto:${currentContact.email}`">Email</a>
+      </div>
+
+      <a href="#inicio" class="back-top" :aria-label="text.footer.backToTop">
+        <span>{{ text.footer.backToTop }}</span>
+        <ArrowUp :size="14" aria-hidden="true" />
+      </a>
     </div>
   </footer>
 </template>
@@ -24,32 +40,65 @@ const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
 <style scoped>
 .site-footer {
   position: relative;
-  z-index: 1;
-  padding: 22px 0;
-  border-top: 1px solid var(--color-line);
-  background: rgb(9 10 12 / 92%);
+  z-index: 2;
+  padding: 28px 0;
+  background: var(--color-bg-base);
+  border-top: 1px solid var(--color-line-cyber);
 }
 
 .footer-content {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px 24px;
-  color: var(--color-muted);
-  font-size: 0.82rem;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
 }
 
-.footer-content a {
-  color: var(--color-lilac);
+.copyright {
+  color: #94a3b8;
 }
 
-@media (max-width: 620px) {
-  p{
-    order: 2;
-  }
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-links a {
+  color: #cbd5e1;
+  transition: color 180ms ease;
+}
+
+.footer-links a:hover {
+  color: var(--color-cobalt-bright);
+}
+
+.sep {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.back-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  transition: color 180ms ease;
+}
+
+.back-top:hover {
+  color: var(--color-cobalt-bright);
+}
+
+@media (max-width: 680px) {
   .footer-content {
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>

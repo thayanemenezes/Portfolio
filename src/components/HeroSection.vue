@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'    
 import { ArrowRight } from '@lucide/vue'
 import { portfolioText } from '../data/portfolio.js'
+import Cursor from './Cursor.vue';
 
 const props = defineProps({
   presentation: {
@@ -14,264 +15,375 @@ const props = defineProps({
   },
 })
 
+const baseUrl = import.meta.env.BASE_URL
 const text = computed(() => portfolioText[props.language] ?? portfolioText.en)
+const heroTitleLines = computed(() => text.value.hero.title.split(' '))
 
 defineEmits(['continue'])
+
+const scrollY = ref(0)
+const isDocked = computed(() => scrollY.value > 70)
+
+function handleScroll() {
+  scrollY.value = window.scrollY
+}
+
+function handleTitleClick() {
+  if (isDocked.value) {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
+const typedSubtitle = ref('')
+let typingTimer
+
+function typeSubtitle(subtitle) {
+  window.clearTimeout(typingTimer)
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    typedSubtitle.value = subtitle
+    return
+  }
+
+  typedSubtitle.value = ''
+  const characters = Array.from(subtitle)
+  let index = 0
+
+  function typeNextCharacter() {
+    if (index >= characters.length) return
+
+    typedSubtitle.value += characters[index]
+    index += 1
+
+    if (index < characters.length) {
+      typingTimer = window.setTimeout(typeNextCharacter, 32)
+    }
+  }
+
+  typeNextCharacter()
+}
+
+watch(() => text.value.hero.subtitle, typeSubtitle)
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
+  typeSubtitle(text.value.hero.subtitle)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll),
+  window.clearTimeout(typingTimer)
+})
+
+
 </script>
 
 <template>
   <section id="inicio" :class="['hero-section', { 'is-presentation': presentation }]">
-    <div class="hero-shade" aria-hidden="true"></div>
-    <div class="hero-orbit hero-orbit-large" aria-hidden="true"></div>
-    <div class="hero-orbit hero-orbit-small" aria-hidden="true"></div>
-    <span class="orbit-signal" aria-hidden="true"></span>
+    <Cursor />
+    <!-- Fullscreen Portrait Background -->
+    <div class="hero-bg-layer" aria-hidden="true">
+      <img
+        :src="`${baseUrl}retrato.png`"
+        alt="Thayane Nascimento"
+        class="hero-bg-img"
+        loading="eager"
+      />
+      <!-- Contrast & Vignette Gradient Overlay -->
+      <!-- <div class="hero-overlay-gradient"></div> -->
+    </div>
 
-    <div class="hero-content page-container">
-      <h2>{{ text.hero.title }}</h2>
-      <h1>{{ text.hero.subtitle }}</h1>
-      <p class="hero-description">{{ text.hero.description }}</p>
-      <div class="hero-actions">
-        <button
-          v-if="presentation"
-          class="button button-primary"
-          type="button"
-          @click="$emit('continue')"
-        >
-          {{ text.hero.continue }} <ArrowRight :size="17" aria-hidden="true" />
-        </button>
-        <template v-else>
-          <a class="button button-primary" href="#projetos">
-            {{ text.hero.viewProjects }} <ArrowRight :size="17" aria-hidden="true" />
+    <!-- Main Container -->
+    <div class="hero-container">
+      <!-- Top: Docking Title that morphs into the fixed header logo upon scrolling -->
+      <div class="hero-top-wrap">
+        <!-- Invisible placeholder to preserve layout flow and prevent layout jumps -->
+        <div class="hero-title-placeholder" aria-hidden="true">
+          {{ heroTitleLines[0] }}<br />{{ heroTitleLines.slice(1).join(' ') }}
+        </div>
+
+        <!-- The animated docking title / fixed menu logo -->
+        <Teleport to="body">
+          <a
+            href="#inicio"
+            :class="['hero-docking-title', { 'is-docked': isDocked }]"
+            :title="isDocked ? (language === 'pt-BR' ? 'Voltar ao topo' : 'Back to top') : undefined"
+            @click.prevent="handleTitleClick"
+          >
+            <span class="docking-text">
+              {{ heroTitleLines[0] }}<br />{{ heroTitleLines.slice(1).join(' ') }}
+            </span>
           </a>
-          <a class="button button-secondary" href="#contato">{{ text.hero.talk }}</a>
-        </template>
+        </Teleport>
+      </div>
+
+      <!-- Bottom: Space-between bar with bold text on left and regular text on right -->
+      <div class="hero-bottom-bar">
+        <!-- Left: Text below title, bold, with left and bottom margins -->
+        <div class="hero-bottom-left">
+          <p class="bottom-bold-text">
+            {{ language === 'pt-BR'
+              ? 'Engenharia de software com foco em arquiteturas escaláveis, plataformas SaaS multi-tenant e interfaces modernas com IA.'
+              : 'Software engineering focused on scalable architectures, multi-tenant SaaS platforms, and modern AI-driven interfaces.' }}
+          </p>
+        </div>
+
+        <!-- Right: Another text, regular (without bold) -->
+        <div class="hero-bottom-right">
+        <p class="bottom-regular-text typewriter">
+        <span class="typewriter-full">{{ text.hero.subtitle }}</span>
+        <span class="typewriter-animated" aria-hidden="true">{{ typedSubtitle }}<span
+          v-if="typedSubtitle !== text.hero.subtitle"
+          class="typewriter-caret"
+        ></span></span>
+      </p>
+
+          <button
+            v-if="presentation"
+            class="cyber-btn presentation-btn"
+            type="button"
+            @click="$emit('continue')"
+          >
+            <span>{{ text.hero.continue }}</span>
+            <ArrowRight :size="16" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
+.typewriter {
+  display: grid;
+}
+
+.typewriter-full,
+.typewriter-animated {
+  grid-area: 1 / 1;
+}
+
+.typewriter-full {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.typewriter-caret {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 0.9em;
+  vertical-align: -0.1em;
+}
+
+.typewriter-caret::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: currentColor;
+  animation: typewriter-blink 700ms step-end infinite;
+}
+
 .hero-section {
   position: relative;
   display: flex;
-  min-height: min(820px, 100svh);
-  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
-  padding: 130px 0 44px;
+  background-color: var(--color-bg-base);
   isolation: isolate;
+  padding: 0;
+  cursor: none;
 }
 
 .hero-section.is-presentation {
   height: 100vh;
   min-height: 100vh;
-  padding: 84px 0 32px;
 }
 
-.hero-shade {
+/* Fullscreen Background Layer */
+.hero-bg-layer {
   position: absolute;
-  z-index: -2;
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-.hero-shade {
-  z-index: -1;
-  background:
-    radial-gradient(ellipse at 78% 38%, rgb(102 110 128 / 12%), transparent 38%),
-    linear-gradient(90deg, rgb(9 10 12 / 84%) 6%, rgb(9 10 12 / 56%) 43%, rgb(9 10 12 / 12%) 100%),
-    linear-gradient(0deg, rgb(9 10 12 / 54%) 0%, transparent 32%);
-}
-
-.hero-content {
-  position: relative;
+  overflow: hidden;
   z-index: 1;
-  animation: content-arrive 700ms 100ms ease both;
-}
-
-.eyebrow {
-  color: var(--color-lilac);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
-.hero-eyebrow {
-  margin-bottom: 26px;
-  color: #c7bdff;
-  letter-spacing: 0.2em;
-}
-
-.hero-eyebrow span {
-  color: var(--color-signal);
-}
-
-h1 {
-  max-width: 850px;
-  color: #f7f8ff;
-  font-size: clamp(2.5rem, 4vw, 6.4rem);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 0.98;
-}
-
-.hero-description {
-  max-width: 600px;
-  margin-top: 28px;
-  color: #d4daf5;
-  font-size: clamp(1.2rem, 1.5vw, 1.25rem);
-  line-height: 1.65;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 36px;
-}
-
-.button {
-  display: inline-flex;
-  min-height: 52px;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 0 22px;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease;
-}
-
-.button:hover {
-  transform: translateY(-2px);
-}
-
-.button-primary {
-  background: var(--color-violet);
-  box-shadow: 0 0 30px rgb(123 92 246 / 26%);
-  color: white;
-  cursor: pointer;
-}
-
-.button-primary:hover {
-  background: #876cf0;
-}
-
-.button-secondary {
-  border-color: rgb(201 213 255 / 30%);
-  background: rgb(9 10 12 / 82%);
-  color: #f4f5ff;
-}
-
-.button-secondary:hover {
-  border-color: var(--color-signal);
-}
-
-.scroll-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 13px;
-  margin-top: clamp(56px, 9vh, 96px);
-  color: #b6c1ea;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.scroll-line {
-  width: 42px;
-  height: 1px;
-  background: rgb(182 193 234 / 50%);
-}
-
-.hero-orbit {
-  position: absolute;
-  z-index: -1;
-  border: 1px solid rgb(123 163 255 / 28%);
-  border-radius: 50%;
   pointer-events: none;
 }
 
-.hero-orbit-large {
-  top: 16%;
-  right: -8%;
-  width: min(47vw, 590px);
-  aspect-ratio: 1;
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  filter: contrast(1.08) brightness(0.92);
 }
 
-.hero-orbit-small {
-  top: 29%;
-  right: 9%;
-  width: min(27vw, 330px);
-  aspect-ratio: 1;
+/* Hero Container */
+.hero-container {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
-.orbit-signal {
-  position: absolute;
-  top: 29%;
-  right: 22%;
-  width: 8px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--color-signal);
-  box-shadow: 0 0 18px var(--color-signal);
+/* Top Area & Placeholder */
+.hero-top-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(28px, 5vh, 52px) clamp(20px, 4vw, 48px) 0;
+}
+
+.hero-title-placeholder {
+  visibility: hidden;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6.5vw, 6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Docking Title Effect:
+   - Initial state (scrollY <= 50): Large, centered horizontally at top of the image
+   - Docked state (scrollY > 50): Small logo docked at top-left, vertically aligned with hamburger button
+*/
+.hero-docking-title {
+  position: fixed;
+  z-index: 49;
+  pointer-events: auto;
+  text-decoration: none;
+
+  /* Initial centered position at top of hero */
+  top: clamp(28px, 5vh, 52px);
+  left: 3%;
+
+
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.2vw, 5.8rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: left;
+
+  transition:
+    top 900ms cubic-bezier(0.19, 1, 0.8, 1),
+    left 900ms cubic-bezier(0.19, 1, 0.8, 1),
+    transform 900ms cubic-bezier(0.19, 1, 0.8, 1),
+    font-size 900ms cubic-bezier(0.19, 1, 0.8, 1),
+    letter-spacing 900ms cubic-bezier(0.19, 1, 0.8, 1),
+    color 600ms ease;
+}
+
+/* Docked State: Top-Left Logo aligned with burger */
+.hero-docking-title.is-docked {
+  /* Aligned horizontally with the hamburger button center */
+  top: calc(clamp(20px, 3.5vw, 36px) + 24px);
+  left: clamp(24px, 5vw, 64px);
+  transform: translate(0, -50%);
+
+  font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.hero-docking-title.is-docked:hover {
+  color: var(--color-cobalt-bright);
+}
+
+.docking-text {
+  display: inline-block;
+}
+
+/* Bottom Bar: Space Between */
+.hero-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(24px, 4vw, 64px);
+  width: 100%;
+  padding-left: clamp(24px, 5vw, 64px);
+  padding-right: clamp(24px, 5vw, 64px);
+  padding-bottom: clamp(28px, 5vh, 52px);
+}
+
+/* Left Text: Bold with Left and Bottom Margins */
+.hero-bottom-left {
+  max-width: 540px;
+}
+
+.bottom-bold-text {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.6;
+  color: #ffffff;
+}
+
+/* Right Text: Another text, Regular (without bold) */
+.hero-bottom-right {
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.bottom-regular-text {
+  font-family: var(--font-mono);
+  font-size: clamp(0.9rem, 1.15vw, 1.12rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #c4d0ec;
+  text-align: right;
+}
+
+.presentation-btn {
+  margin-top: 8px;
 }
 
 
-@keyframes content-arrive {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 700px) {
-  .hero-section {
-    min-height: 760px;
-    min-height: max(760px, 100svh);
-  }
-
-  .hero-section.is-presentation {
-    height: 100vh;
-    min-height: 100vh;
-    padding: 24px 0;
-  }
-
-  h1 {
-    max-width: 600px;
-    font-size: clamp(2.5rem, 8vw, 3.5rem);
-  }
-
-  .hero-orbit-large {
-    top: 8%;
-    right: -48vw;
-    width: 84vw;
-  }
-
-  .hero-orbit-small {
-    top: calc(8% + 16vw);
-    right: -32vw;
-    width: 52vw;
-  }
-
-  .orbit-signal {
-    top: calc(8% + 19.6vw - 4px);
-    right: 6%;
-  }
-
-  .scroll-hint {
-    font-size: 0.6rem;
+@keyframes typewriter-blink {
+  50% {
+    opacity: 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-content {
-    animation: none;
+@media (max-width: 860px) {
+  .hero-bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 32px;
+  }
+
+  .hero-bottom-right {
+    align-items: flex-start;
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .bottom-regular-text {
+    text-align: left;
   }
 }
 </style>
