@@ -34,45 +34,75 @@ function handleTitleClick() {
   }
 }
 
+const subtitles = computed(() => {
+  const subtitle = text.value.hero.subtitle
+
+  return (Array.isArray(subtitle) ? subtitle : [subtitle])
+    .filter((role) => typeof role === 'string' && role.trim())
+})
+
 const typedSubtitle = ref('')
+const showTypewriterCaret = ref(false)
 let typingTimer
 
-function typeSubtitle(subtitle) {
+function startTypewriter() {
   window.clearTimeout(typingTimer)
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    typedSubtitle.value = subtitle
+  const roles = subtitles.value
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  showTypewriterCaret.value = roles.length > 0 && !reducedMotion
+
+  if (reducedMotion || roles.length === 0) {
+    typedSubtitle.value = roles[0] ?? ''
     return
   }
 
-  typedSubtitle.value = ''
-  const characters = Array.from(subtitle)
-  let index = 0
+  let roleIndex = 0
 
-  function typeNextCharacter() {
-    if (index >= characters.length) return
+  function typeRole() {
+    const characters = Array.from(roles[roleIndex])
+    let length = 0
 
-    typedSubtitle.value += characters[index]
-    index += 1
+    function typeNextCharacter() {
+      length += 1
+      typedSubtitle.value = characters.slice(0, length).join('')
 
-    if (index < characters.length) {
-      typingTimer = window.setTimeout(typeNextCharacter, 32)
+      if (length < characters.length) {
+        typingTimer = window.setTimeout(typeNextCharacter, 32)
+      } else if (roles.length > 1) {
+        typingTimer = window.setTimeout(eraseNextCharacter, 1000)
+      }
     }
+
+    function eraseNextCharacter() {
+      length -= 1
+      typedSubtitle.value = characters.slice(0, length).join('')
+
+      if (length > 0) {
+        typingTimer = window.setTimeout(eraseNextCharacter, 20)
+      } else {
+        roleIndex = (roleIndex + 1) % roles.length
+        typingTimer = window.setTimeout(typeRole, 100)
+      }
+    }
+
+    typeNextCharacter()
   }
 
-  typeNextCharacter()
+  typeRole()
 }
 
-watch(() => text.value.hero.subtitle, typeSubtitle)
+watch(subtitles, startTypewriter)
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
   handleScroll()
-  typeSubtitle(text.value.hero.subtitle)
+  startTypewriter()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll),
+  window.removeEventListener('scroll', handleScroll)
   window.clearTimeout(typingTimer)
 })
 
@@ -137,7 +167,7 @@ onUnmounted(() => {
           v-if="typedSubtitle !== text.hero.subtitle"
           class="typewriter-caret"
         ></span></span>
-      </p>
+        </p>
 
           <button
             v-if="presentation"
@@ -322,6 +352,7 @@ onUnmounted(() => {
   padding-left: clamp(24px, 5vw, 64px);
   padding-right: clamp(24px, 5vw, 64px);
   padding-bottom: clamp(28px, 5vh, 52px);
+  align-items: baseline;
 }
 
 /* Left Text: Bold with Left and Bottom Margins */
@@ -363,6 +394,13 @@ onUnmounted(() => {
 @keyframes typewriter-blink {
   50% {
     opacity: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-docking-title:not(.is-docked) {
+    font-size: clamp(1.25rem, 7.5vw, 2.25rem);
+    max-width: 94vw;
   }
 }
 

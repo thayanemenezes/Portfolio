@@ -289,7 +289,7 @@ export const portfolioText = {
     hero: {
       systemTag: 'CORE // FULL_STACK_ENGINEER',
       title: 'THAYANE NASCIMENTO',
-      subtitle: 'Full Stack Developer & Lead Frontend',
+      subtitle: ['Full Stack Developer', 'Lead Frontend', 'Frontend Developer', 'Backend Developer', 'Software Engineer', 'Product Engineer'],
       description:
         'Mais de 6 anos de experiência desenvolvendo aplicações escaláveis, plataformas SaaS multi-tenant e interfaces de alta performance. Especialista no ecossistema TypeScript/JavaScript e fluxos integrados com IA.',
       viewProjects: 'Explorar Projetos',
