@@ -401,6 +401,7 @@ onUnmounted(() => {
   .hero-docking-title:not(.is-docked) {
     font-size: clamp(1.25rem, 7.5vw, 2.25rem);
     max-width: 94vw;
+    margin-top: 20px;
   }
 }
 

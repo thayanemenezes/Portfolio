@@ -102,10 +102,6 @@ const experienceList = computed(() => experiences[props.language] ?? experiences
   margin-bottom: 44px;
 }
 
-.section-title-wrap {
-  max-width: 680px;
-}
-
 .section-title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 3.8vw, 3rem);

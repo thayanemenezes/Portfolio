@@ -1,6 +1,8 @@
 <script setup>
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 
+const SPLASH_SESSION_KEY = 'portfolio-splash-seen'
+
 defineProps({
   skipLabel: { type: String, default: 'Pular abertura' },
 })
@@ -193,14 +195,27 @@ function handleMotion(event) {
 
 onMounted(async () => {
   motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
   if (motion.matches) {
     emit('finished')
     return
   }
 
+  try {
+    if (window.sessionStorage.getItem(SPLASH_SESSION_KEY)) {
+      emit('finished')
+      return
+    }
+
+    window.sessionStorage.setItem(SPLASH_SESSION_KEY, '1')
+  } catch {
+    // Se o armazenamento estiver indisponível, segue com a abertura.
+  }
+
   motion.addEventListener('change', handleMotion)
   active.value = true
   fallbackTimer = window.setTimeout(finish, 5400)
+
   await nextTick()
   if (!active.value || !overlay.value) return
 

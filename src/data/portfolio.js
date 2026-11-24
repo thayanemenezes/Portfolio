@@ -314,7 +314,7 @@ export const portfolioText = {
     },
     experience: {
       eyebrow: '02 // Experiências Profissionais',
-      title: 'Marcos de Carreira & Engenharia',
+      title: 'Trajetória e Experiência Profissional',
       intro:
         'Liderança técnica, evolução arquitetural e entrega de plataformas de alto impacto.',
       download: 'Baixar Currículo Completo',
@@ -326,7 +326,7 @@ export const portfolioText = {
     },
     projects: {
       eyebrow: '04 // Projetos Selecionados',
-      title: 'Projetos em Produção & Estudos de Caso',
+      title: 'Projetos & Estudos de Caso',
       intro: 'Construção pensada para o negócio e para o usuário, unindo arquitetura escalável e inovação.',
       filters: {
         all: 'Todos',
