@@ -20,7 +20,7 @@ const experienceList = computed(() => experiences[props.language] ?? experiences
     <div class="page-container">
       <!-- Section Header -->
 
-      <div class="section-header-row">
+      <div class="section-header-row reveal-on-scroll">
         <div class="section-title-wrap">
           <h2 class="section-title">{{ text.experience.title }}</h2>
           <p class="section-intro">{{ text.experience.intro }}</p>
@@ -41,7 +41,7 @@ const experienceList = computed(() => experiences[props.language] ?? experiences
         <article
           v-for="(experience, index) in experienceList"
           :key="`${experience.company}-${index}`"
-          class="experience-card"
+          :class="['experience-card', 'reveal-on-scroll', `reveal-delay-${Math.min(index + 1, 4)}`]"
         >
           <div class="card-left">
             <span class="period-text">{{ experience.period }}</span>
@@ -65,8 +65,16 @@ const experienceList = computed(() => experiences[props.language] ?? experiences
 <style scoped>
 .experience-section {
   position: relative;
-  background-color: var(--color-bg-base);
-  border-bottom: 1px solid var(--color-line-cyber);
+  background:
+    linear-gradient(
+      to bottom,
+      #000000 0%,
+      #0d0021 20%,
+      #130059 45%,
+      #3100b8 70%,
+      #4400ff 90%,
+      #2600ff 100%
+    );
 }
 
 .section-top-label {

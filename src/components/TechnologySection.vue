@@ -52,7 +52,7 @@ const technologies = [
     <div class="page-container">
       <!-- Section Header -->
 
-      <div class="section-title-wrap">
+      <div class="section-title-wrap reveal-on-scroll">
         <h2 class="section-title">{{ text.technologies.title }}</h2>
       </div>
 
@@ -61,7 +61,7 @@ const technologies = [
         <div
           v-for="(cat, idx) in stackCategories"
           :key="idx"
-          class="stack-block"
+          :class="['stack-block', 'reveal-on-scroll', `reveal-delay-${idx + 1}`]"
         >
           <h3 class="cat-title">{{ cat.title }}</h3>
           <div class="skills-list">
@@ -77,7 +77,7 @@ const technologies = [
       </div>
 
       <!-- Infinite Marquee -->
-      <div class="technology-marquee-wrap">
+      <div class="technology-marquee-wrap reveal-on-scroll reveal-delay-3">
         <div class="marquee-track">
           <ul
             v-for="(isDuplicate, groupIndex) in [false, true]"
@@ -103,9 +103,16 @@ const technologies = [
 <style scoped>
 .technology-section {
   position: relative;
-  background-color: var(--color-bg-base);
-  border-bottom: 1px solid var(--color-line-cyber);
-  overflow: hidden;
+   background:
+    linear-gradient(
+      to top,
+      #000000 0%,
+      #0d0021 20%,
+      #130059 45%,
+      #3100b8 70%,
+      #4400ff 90%,
+      #2600ff 100%
+    );
 }
 
 .section-top-label {

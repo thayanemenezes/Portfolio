@@ -59,7 +59,7 @@ export const projects = {
         'I worked from layout and design planning through front-end implementation using React and TailwindCSS. I also conducted usability and performance tests to ensure accessibility and SEO requirements were met. I integrated contact forms and social links to make communication with potential clients easier.',
       result: 'A functional and visually appealing landing page that presents Asterismo Tecnologia’s services in a clear and professional way. The page is still in testing before production launch.',
       detailImage: `${import.meta.env.BASE_URL}asterismo-2.png`,
-      link: 'https://www.magicauthor.ai/',
+      link: 'https://github.com/thayanemenezes/Asterismo-Tecnologia',
     },
     {
       id: 'astehub',
@@ -78,7 +78,7 @@ export const projects = {
       result:
         'The project already has an authentication foundation and a multi-tenant architecture in progress, along with the initial infrastructure and deployment structure. The platform continues to evolve toward MVP, focusing on delivering a centralized, customizable solution ready for different companies and franchise networks. AsteHub also reflects the practical application of my experience in product development, from conception and modeling to implementation and infrastructure.',
       detailImage: `${import.meta.env.BASE_URL}astehub-2.png`,
-      link: '',
+      link: 'https://github.com/thayanemenezes/AsteHub',
     },
     {
       id: 'magic-author',
@@ -177,11 +177,11 @@ export const portfolioText = {
     header: {
       ariaLabel: 'Main navigation',
       links: [
+        { label: 'Hero', href: '#', id: 'hero' },
         { label: 'Projects', href: '#projetos', id: 'projetos' },
         { label: 'About', href: '#apresentacao', id: 'apresentacao' },
         { label: 'Experience', href: '#experiencias', id: 'experiencias' },
         { label: 'Stack', href: '#tecnologias', id: 'tecnologias' },
-
         { label: 'Contact', href: '#contato', id: 'contato' },
       ],
       menuOpen: 'Open menu',
@@ -276,10 +276,11 @@ export const portfolioText = {
     header: {
       ariaLabel: 'Navegação principal',
       links: [
+        { label: 'Início', href: '#', id: 'inicio' },
+        { label: 'Projetos', href: '#projetos', id: 'projetos' },
         { label: 'Sobre', href: '#apresentacao', id: 'apresentacao' },
         { label: 'Experiências', href: '#experiencias', id: 'experiencias' },
         { label: 'Stack', href: '#tecnologias', id: 'tecnologias' },
-        { label: 'Projetos', href: '#projetos', id: 'projetos' },
         { label: 'Contato', href: '#contato', id: 'contato' },
       ],
       menuOpen: 'Abrir menu',

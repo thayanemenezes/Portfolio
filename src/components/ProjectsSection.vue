@@ -36,6 +36,9 @@ function closeProject() {
 
 <template>
   <section id="projetos" class="projects-section section-space">
+     <div class="projects-bg-layer" aria-hidden="true">
+    </div>
+
     <!-- Case Study View -->
     <ProjectCaseStudy
       v-if="selectedProject"
@@ -48,7 +51,7 @@ function closeProject() {
     <div v-else class="page-container">
       <!-- Section Header -->
 
-      <div class="projects-header-row">
+      <div class="projects-header-row reveal-on-scroll">
         <div class="section-title-wrap">
           <h2 class="section-title">{{ text.projects.title }}</h2>
           <p class="section-intro">{{ text.projects.intro }}</p>
@@ -58,9 +61,9 @@ function closeProject() {
       <!-- Project Cards Grid -->
       <div class="project-grid" aria-live="polite">
         <article
-          v-for="project in projectList"
+          v-for="(project, index) in projectList"
           :key="project.id"
-          class="project-card"
+          :class="['project-card', 'reveal-on-scroll', `reveal-delay-${(index % 3) + 1}`]"
           @click="openProject(project)"
         >
           <!-- Image -->
@@ -102,10 +105,27 @@ function closeProject() {
 </template>
 
 <style scoped>
+.projects-bg-layer{
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  min-height: 500px;
+  overflow: hidden;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      #000000 0%,
+      #150021 20%,
+      #400059 45%,
+      #8400b8 70%,
+      #c300ff 90%,
+      #cc00ff 100%
+    );
+}
+
 .projects-section {
   position: relative;
-  background-color: var(--color-bg-base);
-  border-bottom: 1px solid var(--color-line-cyber);
   scroll-margin-top: 80px;
 }
 

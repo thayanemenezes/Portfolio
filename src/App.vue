@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { portfolioText } from './data/portfolio.js'
 import AboutSection from './components/AboutSection.vue'
 import ContactSection from './components/ContactSection.vue'
@@ -52,13 +52,62 @@ function updateScrollProgress() {
   scrollProgress.value = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0
 }
 
+let revealObserver = null
+
+function initScrollReveal() {
+  if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return
+
+  revealObserver?.disconnect()
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const elements = document.querySelectorAll('.reveal-on-scroll, .reveal-scale')
+
+  if (prefersReduced) {
+    elements.forEach((el) => el.classList.add('is-revealed'))
+    return
+  }
+
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed')
+        }
+      })
+    },
+    {
+      rootMargin: '0px 0px -20% 0px',
+      threshold: 0.15,
+    }
+  )
+
+  elements.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight * 0.45 && rect.bottom > 0) {
+      el.classList.add('is-revealed')
+    } else {
+      revealObserver.observe(el)
+    }
+  })
+}
+
+watch(currentLanguage, () => {
+  nextTick(() => {
+    setTimeout(initScrollReveal, 120)
+  })
+})
+
 onMounted(() => {
   window.addEventListener('scroll', updateScrollProgress, { passive: true })
   updateScrollProgress()
+  nextTick(() => {
+    setTimeout(initScrollReveal, 150)
+  })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', updateScrollProgress)
+  revealObserver?.disconnect()
 })
 </script>
 
@@ -67,8 +116,9 @@ onUnmounted(() => {
     :subtitle="currentLanguage === 'en' ? 'Software Engineer' : 'Engenheira de Software'"
 
   >
+        <CyberBackground />
     <div class="page-shell">
-      <CyberBackground />
+
 
       <div class="scroll-progress" aria-hidden="true">
         <div

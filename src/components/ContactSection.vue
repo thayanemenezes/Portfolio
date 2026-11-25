@@ -34,12 +34,12 @@ function submitContact() {
 
       <div class="contact-grid">
         <!-- Left: Copy & Channels -->
-        <div class="contact-copy">
+        <div class="contact-copy reveal-on-scroll">
           <h2 class="contact-title">{{ text.contact.title }}</h2>
           <p class="contact-intro">{{ text.contact.intro }}</p>
 
           <div class="channels-list">
-            <a :href="`mailto:${currentContact.email}`" class="channel-card">
+            <a :href="`mailto:${currentContact.email}`" class="channel-card reveal-on-scroll reveal-delay-1">
               <Mail :size="20" class="channel-icon" />
               <div class="channel-info">
                 <span class="channel-label">E-mail</span>
@@ -47,7 +47,7 @@ function submitContact() {
               </div>
             </a>
 
-            <a :href="currentContact.linkedin" target="_blank" rel="noopener noreferrer" class="channel-card">
+            <a :href="currentContact.linkedin" target="_blank" rel="noopener noreferrer" class="channel-card reveal-on-scroll reveal-delay-2">
               <BriefcaseBusiness :size="20" class="channel-icon" />
               <div class="channel-info">
                 <span class="channel-label">LinkedIn</span>
@@ -55,7 +55,7 @@ function submitContact() {
               </div>
             </a>
 
-            <a :href="currentContact.github" target="_blank" rel="noopener noreferrer" class="channel-card">
+            <a :href="currentContact.github" target="_blank" rel="noopener noreferrer" class="channel-card reveal-on-scroll reveal-delay-3">
               <CodeXml :size="20" class="channel-icon" />
               <div class="channel-info">
                 <span class="channel-label">GitHub</span>
@@ -66,7 +66,7 @@ function submitContact() {
         </div>
 
         <!-- Right: Clean Form -->
-        <div class="form-wrapper">
+        <div class="form-wrapper reveal-on-scroll reveal-delay-2">
           <form class="contact-form" @submit.prevent="submitContact">
             <div class="form-field">
               <label for="contact-name">{{ text.contact.labels.name }}</label>
@@ -124,8 +124,16 @@ function submitContact() {
 <style scoped>
 .contact-section {
   position: relative;
-  background-color: var(--color-bg-base);
-  border-bottom: 1px solid var(--color-line-cyber);
+   background:
+    linear-gradient(
+      to bottom,
+      #000000 0%,
+      #210f00 20%,
+      #592400 45%,
+      rgb(184, 74, 0) 70%,
+      #ff5e00 90%,
+      #ff7300 100%
+    );
 }
 
 .section-top-label {

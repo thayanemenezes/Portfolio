@@ -41,9 +41,14 @@ const currentContact = computed(() => contact[props.language] ?? contact.en)
 .site-footer {
   position: relative;
   z-index: 2;
-  padding: 28px 0;
-  background: var(--color-bg-base);
-  border-top: 1px solid var(--color-line-cyber);
+  padding: 32px 0;
+   background:
+    linear-gradient(
+      to top,
+      rgb(184, 74, 0) 0%,
+      #ff5e00 50%,
+      #ff7300 100%
+    );
 }
 
 .footer-content {
@@ -54,12 +59,8 @@ const currentContact = computed(() => contact[props.language] ?? contact.en)
   gap: 16px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--color-text-dim);
 }
 
-.copyright {
-  color: #94a3b8;
-}
 
 .footer-links {
   display: flex;
@@ -68,7 +69,6 @@ const currentContact = computed(() => contact[props.language] ?? contact.en)
 }
 
 .footer-links a {
-  color: #cbd5e1;
   transition: color 180ms ease;
 }
 
@@ -84,7 +84,6 @@ const currentContact = computed(() => contact[props.language] ?? contact.en)
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--color-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.74rem;

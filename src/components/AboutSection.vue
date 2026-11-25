@@ -29,7 +29,7 @@ defineEmits(['continue'])
 
       <div class="about-grid">
         <!-- Visual Column -->
-        <div class="about-visual">
+        <div class="about-visual reveal-on-scroll reveal-scale">
           <div class="image-wrapper">
             <img
               class="about-image"
@@ -41,7 +41,7 @@ defineEmits(['continue'])
         </div>
 
         <!-- Copy Column -->
-        <div class="about-copy">
+        <div class="about-copy reveal-on-scroll reveal-delay-2">
           <h2 class="about-heading">{{ text.about.title }}</h2>
 
           <div class="paragraphs-wrap">
@@ -78,9 +78,17 @@ defineEmits(['continue'])
 <style scoped>
 .about-section {
   position: relative;
-  background-color: var(--color-bg-base);
-  border-bottom: 1px solid var(--color-line-cyber);
-  padding: 40px 0;
+  background:
+    linear-gradient(
+      to top,
+    #000000 0%,
+      #150021 20%,
+      #400059 45%,
+      #8400b8 70%,
+      #c300ff 90%,
+      #cc00ff 100%
+    );
+  padding: 140px 0;
 }
 
 .about-section.is-presentation {
@@ -116,7 +124,7 @@ defineEmits(['continue'])
   display: grid;
   align-items: start;
   gap: clamp(40px, 5vw, 72px);
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
 }
 
 /* Image */
@@ -128,16 +136,15 @@ defineEmits(['continue'])
   position: relative;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(7, 8, 16, 0.8);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 .about-image {
   width: 100%;
-  height: clamp(360px, 38vw, 480px);
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center;
   filter: contrast(1.04);
   transition: transform 300ms ease;
 }
@@ -169,7 +176,6 @@ defineEmits(['continue'])
 }
 
 .about-p {
-  color: var(--color-text-muted);
   font-size: 1.02rem;
   line-height: 1.75;
 }

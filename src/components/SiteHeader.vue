@@ -134,7 +134,7 @@ onUnmounted(() => {
             <span>/</span>
             <a :href="currentContact.linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <span>/</span>
-            <a :href="`mailto:${currentContact.email}`">{{ currentContact.email }}</a>
+            <a :href="`mailto:${currentContact.email}`">E-mail</a>
           </div>
 
           <div class="overlay-location">
@@ -186,9 +186,7 @@ onUnmounted(() => {
 }
 
 .hamburger-btn:hover {
-  border-color: var(--color-cobalt-bright);
-  background: rgba(0, 71, 255, 0.15);
-  box-shadow: 0 0 20px var(--color-cobalt-glow);
+  background: rgba(35, 38, 44, 0.15);
 }
 
 .burger-line {
@@ -273,7 +271,7 @@ onUnmounted(() => {
 }
 
 .lang-btn.is-active {
-  color: var(--color-cobalt-bright);
+  color: var(--color-orange);
   font-weight: 700;
 }
 
@@ -296,9 +294,8 @@ onUnmounted(() => {
 }
 
 .close-btn:hover {
-  background: var(--color-cobalt);
-  border-color: var(--color-cobalt);
-  box-shadow: 0 0 16px var(--color-cobalt-glow);
+  background: var(--color-orange);
+  border-color: var(--color-orange);
 }
 
 /* Nav List & Large Responsive Fonts */
@@ -328,7 +325,7 @@ onUnmounted(() => {
   gap: clamp(16px, 3vw, 36px);
   color: #94a3b8;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 700;
   line-height: 1.05;
   text-transform: uppercase;
@@ -340,7 +337,7 @@ onUnmounted(() => {
 .link-number {
   font-family: var(--font-mono);
   font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--color-cobalt-bright);
+  color: var(--color-orange);
   font-weight: 600;
   opacity: 0.8;
 }
@@ -348,7 +345,7 @@ onUnmounted(() => {
 .link-arrow {
   font-family: var(--font-mono);
   font-size: clamp(1.4rem, 3vw, 2.4rem);
-  color: var(--color-cobalt-bright);
+  color: var(--color-orange);
   opacity: 0;
   transform: translateX(-12px);
   transition: all 220ms ease;
@@ -393,7 +390,7 @@ onUnmounted(() => {
 }
 
 .overlay-social a:hover {
-  color: var(--color-cobalt-bright);
+  color: var(--color-orange);
 }
 
 /* Transition */

@@ -185,6 +185,32 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+
+.hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Transição suave para a próxima seção */
+.hero-bg-layer::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(120px, 25vh, 240px);
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(13, 8, 0, 0.25) 20%,
+    rgba(8, 5, 0, 0.75) 70%,
+    #000000 100%
+  );
+} 
+
 .typewriter {
   display: grid;
 }
@@ -221,7 +247,6 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   min-height: 100vh;
-  min-height: 100svh;
   overflow: hidden;
   background-color: var(--color-bg-base);
   isolation: isolate;
@@ -239,7 +264,6 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
   overflow: hidden;
   z-index: 1;
   pointer-events: none;
@@ -249,8 +273,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
-  filter: contrast(1.08) brightness(0.92);
+  object-position: center;
 }
 
 /* Hero Container */
@@ -400,8 +423,9 @@ onUnmounted(() => {
 @media (max-width: 767px) {
   .hero-docking-title:not(.is-docked) {
     font-size: clamp(1.25rem, 7.5vw, 2.25rem);
-    max-width: 94vw;
+    max-width: 88vw;
     margin-top: 20px;
+    left: 28px;
   }
 }
 
@@ -410,8 +434,8 @@ onUnmounted(() => {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 28px;
+    padding-right: 28px;
     padding-bottom: 32px;
   }
 
